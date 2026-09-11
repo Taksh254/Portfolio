@@ -58,3 +58,8 @@ public/tree-exact*
 public/tree-flank*
 public/tree-left*
 public/tree_ref*
+
+# class coursework
+class/
+class1/
+class*.html
