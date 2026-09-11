@@ -66,7 +66,7 @@ export function TypewriterHeader({
   }, [displayText, isDeleting, phraseIdx, phrases, hasStarted, pauseMs, typingSpeed, deletingSpeed]);
 
   return (
-    <div className={`flex items-center gap-2 min-h-[22px] ${className}`}>
+    <div className={`flex items-center gap-2 min-h-[22px] min-w-0 overflow-hidden ${className}`}>
       {showAccentBar && (
         <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs shrink-0" />
       )}

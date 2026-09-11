@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BookOpen } from "lucide-react";
+import { Trophy } from "lucide-react";
 import { PolaroidPhoto } from "./PolaroidPhoto";
 import { CurrentlyCard } from "./CurrentlyCard";
 import { GlassMusicPlayer } from "./GlassMusicPlayer";
@@ -94,8 +94,8 @@ export function HeroSection({
               type="button"
               className="flex items-center gap-2 px-3.5 py-2 rounded-md bg-[#FCFAF4] border border-[#D8D3C8] text-[#111111] text-[11px] font-mono-tech font-medium tracking-wider hover:bg-white hover:border-[#B8B1A2] transition-colors cursor-pointer shadow-2xs"
             >
-              <BookOpen style={{ width: 12, height: 12 }} />
-              <span>Open Diary</span>
+              <Trophy style={{ width: 12, height: 12, color: "#E6322A" }} />
+              <span>Hackathons</span>
             </button>
           </div>
         </div>

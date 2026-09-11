@@ -55,7 +55,7 @@ export function FeaturedProjects({
         <button
           onClick={onViewAll}
           type="button"
-          className="text-[10px] font-mono-tech tracking-wider text-[#33312E] hover:text-[#E6322A] transition-colors cursor-pointer flex items-center gap-1 font-medium"
+          className="text-[10px] font-mono-tech tracking-wider text-[#33312E] hover:text-[#E6322A] transition-colors cursor-pointer flex items-center gap-1 font-medium shrink-0 whitespace-nowrap"
         >
           <span>View All</span>
           <span>&rarr;</span>
