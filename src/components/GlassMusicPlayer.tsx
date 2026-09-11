@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react";
+import {
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
+  Repeat1,
+} from "lucide-react";
 
 interface Track {
   id: string;
@@ -9,54 +17,69 @@ interface Track {
   artist: string;
   isExplicit?: boolean;
   coverUrl: string;
-  duration: number; // in seconds, e.g. 241s = 4:01 (0:50 elapsed, 3:11 remaining)
+  duration: number; // in seconds
+  audioSrc?: string;
 }
 
 const PLAYLIST: Track[] = [
+  {
+    id: "loser-dino-james",
+    title: "Loser",
+    artist: "Dino James",
+    isExplicit: true,
+    coverUrl: "/album-loser.jpg",
+    duration: 264, // 4:24
+    audioSrc: "/loser.mp3",
+  },
+  {
+    id: "loser-beck",
+    title: "Loser",
+    artist: "Beck",
+    isExplicit: true,
+    coverUrl: "/album-loser.jpg",
+    duration: 235, // 3:55
+  },
   {
     id: "world-of-flowers",
     title: "The World of Flowers",
     artist: "Levon Tutundzhian",
     isExplicit: true,
     coverUrl: "/album-world-of-flowers.png",
-    duration: 241, // 0:50 elapsed + 3:11 remaining = 4:01
-  },
-  {
-    id: "midnight-synapses",
-    title: "Midnight Synapses",
-    artist: "Taksh S. // Kernel Beats",
-    isExplicit: false,
-    coverUrl: "/album-world-of-flowers.png",
-    duration: 198,
-  },
-  {
-    id: "gotham-rain",
-    title: "Atmospheric Lo-Fi",
-    artist: "Wayne Tower Audio",
-    isExplicit: false,
-    coverUrl: "/album-world-of-flowers.png",
-    duration: 275,
+    duration: 241,
   },
 ];
 
 export function GlassMusicPlayer() {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(50); // initial 0:50
+  const [isLooping, setIsLooping] = useState(true); // Loop active by default
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(42); // start with nice aesthetic offset
   const [airplayActive, setAirplayActive] = useState(false);
   const [airplayMessage, setAirplayMessage] = useState(false);
+  const [loopNotification, setLoopNotification] = useState(false);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const synthNodesRef = useRef<{ gainNode: GainNode } | null>(null);
 
   const track = PLAYLIST[currentTrackIndex];
   const duration = track.duration;
 
-  // Real-time playback timer
+  // Real-time playback timer with seamless looping
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (isPlaying) {
       interval = setInterval(() => {
         setCurrentTime((prev) => {
           if (prev >= duration) {
-            return 0;
+            if (isLooping) {
+              // Loop back to start seamlessly
+              return 0;
+            } else {
+              setIsPlaying(false);
+              return duration;
+            }
           }
           return prev + 1;
         });
@@ -65,10 +88,100 @@ export function GlassMusicPlayer() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, duration]);
+  }, [isPlaying, duration, isLooping]);
+
+  // Web Audio ambient lo-fi synthesizer loop fallback when audio file isn't present
+  const startSynth = () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new AudioCtx();
+      }
+      const ctx = audioCtxRef.current;
+      if (ctx.state === "suspended") {
+        ctx.resume();
+      }
+
+      if (!synthNodesRef.current) {
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(isMuted ? 0 : 0.08, ctx.currentTime);
+        masterGain.connect(ctx.destination);
+
+        // Warm chord notes (D minor: D3, F3, A3, C4)
+        const freqs = [146.83, 174.61, 220.0, 261.63];
+        freqs.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const filter = ctx.createBiquadFilter();
+          const noteGain = ctx.createGain();
+
+          osc.type = idx % 2 === 0 ? "triangle" : "sine";
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+          filter.type = "lowpass";
+          filter.frequency.setValueAtTime(480 + idx * 60, ctx.currentTime);
+
+          noteGain.gain.setValueAtTime(0.04 / freqs.length, ctx.currentTime);
+
+          osc.connect(filter);
+          filter.connect(noteGain);
+          noteGain.connect(masterGain);
+          osc.start();
+        });
+
+        synthNodesRef.current = { gainNode: masterGain };
+      } else {
+        synthNodesRef.current.gainNode.gain.setTargetAtTime(isMuted ? 0 : 0.08, ctx.currentTime, 0.1);
+      }
+    } catch {
+      // AudioContext unavailable or blocked by browser policy
+    }
+  };
+
+  const stopSynth = () => {
+    if (synthNodesRef.current && audioCtxRef.current) {
+      synthNodesRef.current.gainNode.gain.setTargetAtTime(0, audioCtxRef.current.currentTime, 0.15);
+    }
+  };
 
   const togglePlay = () => {
-    setIsPlaying((prev) => !prev);
+    const nextPlaying = !isPlaying;
+    setIsPlaying(nextPlaying);
+
+    if (nextPlaying) {
+      startSynth();
+      if (audioRef.current && track.audioSrc) {
+        audioRef.current.play().catch(() => {
+          // Audio file play fallback to synth
+        });
+      }
+    } else {
+      stopSynth();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    }
+  };
+
+  const toggleLoop = () => {
+    setIsLooping((prev) => {
+      const next = !prev;
+      setLoopNotification(true);
+      setTimeout(() => setLoopNotification(false), 2000);
+      return next;
+    });
+  };
+
+  const toggleMute = () => {
+    setIsMuted((prev) => {
+      const next = !prev;
+      if (synthNodesRef.current && audioCtxRef.current) {
+        synthNodesRef.current.gainNode.gain.setTargetAtTime(next ? 0 : 0.08, audioCtxRef.current.currentTime, 0.05);
+      }
+      if (audioRef.current) {
+        audioRef.current.muted = next;
+      }
+      return next;
+    });
   };
 
   const handlePrev = () => {
@@ -85,7 +198,11 @@ export function GlassMusicPlayer() {
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const pct = Math.max(0, Math.min(1, clickX / rect.width));
-    setCurrentTime(Math.floor(pct * duration));
+    const seekTime = Math.floor(pct * duration);
+    setCurrentTime(seekTime);
+    if (audioRef.current && isFinite(audioRef.current.duration)) {
+      audioRef.current.currentTime = seekTime;
+    }
   };
 
   const handleAirPlay = () => {
@@ -106,10 +223,37 @@ export function GlassMusicPlayer() {
 
   return (
     <div className="relative w-full max-w-[285px] select-none">
+      {/* Hidden audio element for MP3 playback */}
+      {track.audioSrc && (
+        <audio
+          ref={audioRef}
+          src={track.audioSrc}
+          loop={isLooping}
+          muted={isMuted}
+          onEnded={() => {
+            if (isLooping) {
+              if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+                audioRef.current.play().catch(() => {});
+              }
+            } else {
+              setIsPlaying(false);
+            }
+          }}
+        />
+      )}
+
       {/* AirPlay Feedback Notification Pill */}
       {airplayMessage && (
         <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-white font-mono-tech text-[9px] tracking-wider whitespace-nowrap shadow-md z-30 transition-all animate-fade-in">
           {airplayActive ? "AirPlay: TAKSH.OS Connected" : "AirPlay: Disconnected"}
+        </div>
+      )}
+
+      {/* Loop Notification Pill */}
+      {loopNotification && (
+        <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#E6322A]/90 backdrop-blur-md text-white font-mono-tech text-[9px] font-bold tracking-wider whitespace-nowrap shadow-md z-30 transition-all animate-fade-in">
+          {isLooping ? "🔁 Loop Enabled: Loser on Repeat" : "Loop Disabled"}
         </div>
       )}
 
@@ -135,7 +279,7 @@ export function GlassMusicPlayer() {
         {/* ── 1. Top Section: Album Artwork + Title/Artist + Equalizer ── */}
         <div className="flex items-center gap-2.5">
           {/* Album Artwork */}
-          <div className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 shadow-[0_3px_10px_rgba(0,0,0,0.12)] border border-black/[0.08] bg-[#FAF5E6]">
+          <div className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 shadow-[0_3px_10px_rgba(0,0,0,0.14)] border border-black/[0.08] bg-[#FAF5E6]">
             <img
               src={track.coverUrl}
               alt={`${track.title} cover`}
@@ -148,12 +292,20 @@ export function GlassMusicPlayer() {
           {/* Title & Artist Info */}
           <div className="flex-1 min-w-0 pr-0.5">
             <div className="flex items-center gap-1.5 leading-tight">
-              <h4 className="font-sans font-bold text-[12px] sm:text-[12.5px] text-[#111111] truncate tracking-tight">
+              <h4 className="font-sans font-bold text-[12.5px] sm:text-[13px] text-[#111111] truncate tracking-tight">
                 {track.title}
               </h4>
               {track.isExplicit && (
                 <span className="shrink-0 px-1 py-[0.5px] text-[7px] font-mono-tech font-bold rounded-[3px] bg-black/10 text-[#2C261E] border border-black/20 leading-none">
                   E
+                </span>
+              )}
+              {isLooping && (
+                <span
+                  title="Loop Active"
+                  className="shrink-0 px-1 py-[0.5px] text-[6.5px] font-mono-tech font-bold rounded-[3px] bg-[#E6322A]/10 text-[#E6322A] border border-[#E6322A]/25 leading-none"
+                >
+                  LOOP
                 </span>
               )}
             </div>
@@ -164,8 +316,9 @@ export function GlassMusicPlayer() {
 
           {/* Equalizer Waveform Animation */}
           <div
-            className="flex items-end gap-[2px] h-4 shrink-0 pl-1"
-            title={isPlaying ? "Playing audio" : "Paused"}
+            className="flex items-end gap-[2px] h-4 shrink-0 pl-1 cursor-pointer"
+            onClick={togglePlay}
+            title={isPlaying ? "Playing audio — Click to pause" : "Paused — Click to play"}
           >
             {[
               { h: "60%", dur: "0.8s", delay: "0.1s" },
@@ -175,9 +328,10 @@ export function GlassMusicPlayer() {
             ].map((bar, i) => (
               <span
                 key={i}
-                className="w-[2.5px] rounded-full bg-[#111111]/80 inline-block transition-all"
+                className="w-[2.5px] rounded-full inline-block transition-all"
                 style={{
                   height: isPlaying ? bar.h : "30%",
+                  backgroundColor: isPlaying ? "#E6322A" : "rgba(17, 17, 17, 0.6)",
                   animation: isPlaying
                     ? `equalizer-pulse ${bar.dur} ease-in-out infinite alternate ${bar.delay}`
                     : "none",
@@ -212,9 +366,36 @@ export function GlassMusicPlayer() {
 
         {/* ── 3. Bottom Section: Playback Controls ── */}
         <div className="flex items-center justify-between mt-1 pt-0.5">
-          {/* Subtle volume hint / spacer */}
-          <div className="w-5 flex items-center justify-start text-[#8C8476]">
-            <Volume2 className="w-3.5 h-3.5 opacity-60 hover:opacity-100 transition-opacity cursor-pointer" />
+          {/* Left: Volume & Repeat Loop Controls */}
+          <div className="flex items-center gap-2 text-[#8C8476]">
+            {/* Volume toggle */}
+            <button
+              onClick={toggleMute}
+              type="button"
+              title={isMuted ? "Unmute" : "Mute"}
+              className="hover:text-black transition-colors cursor-pointer"
+            >
+              {isMuted ? (
+                <VolumeX className="w-3.5 h-3.5 text-[#E6322A]" />
+              ) : (
+                <Volume2 className="w-3.5 h-3.5 opacity-60 hover:opacity-100" />
+              )}
+            </button>
+
+            {/* Loop Toggle Button */}
+            <button
+              onClick={toggleLoop}
+              type="button"
+              title={isLooping ? "Repeat One Track (Loop On)" : "Repeat Off"}
+              className={`p-0.5 rounded transition-all cursor-pointer relative ${
+                isLooping ? "text-[#E6322A]" : "text-[#8C8476] opacity-60 hover:opacity-100"
+              }`}
+            >
+              <Repeat1 className="w-3.5 h-3.5" />
+              {isLooping && (
+                <span className="w-1 h-1 rounded-full bg-[#E6322A] absolute -bottom-0.5 left-1/2 -translate-x-1/2" />
+              )}
+            </button>
           </div>
 
           {/* Center Playback Controls */}
@@ -267,7 +448,7 @@ export function GlassMusicPlayer() {
                   : "text-[#66635D] hover:text-black hover:bg-black/[0.04]"
               }`}
             >
-              {/* Apple AirPlay Icon: Concentric audio arcs over triangular output arrow */}
+              {/* Apple AirPlay Icon */}
               <svg
                 width="14"
                 height="14"
