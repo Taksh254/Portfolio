@@ -1,14 +1,21 @@
 "use client";
 
-import React from "react";
-import { ArrowUpRight } from "lucide-react";
+import React, { useState } from "react";
+import {
+  ExternalLink,
+  Clock,
+  Sparkles,
+  ChevronRight,
+  FolderGit2,
+  Zap,
+} from "lucide-react";
 import { TypewriterHeader } from "./TypewriterHeader";
 
 const PROJECTS_PHRASES = [
-  "// 03  FEATURED PROJECTS",
-  "// PRODUCTION BUILDS & AGENTS",
-  "// TATVAM // RESEARCH AGENT",
+  "// 03  FEATURED PROJECTS // BUILDS",
   "// ARCHITECTURE: FULL-STACK AI",
+  "// 🏆 1ST PLACE & TOP FINALIST BUILDS",
+  "// HIGH-VELOCITY SHIP CADENCE",
 ];
 
 interface FeaturedProjectsProps {
@@ -16,207 +23,330 @@ interface FeaturedProjectsProps {
   onViewAll?: () => void;
 }
 
+export interface FeaturedProjectBuild {
+  id: string;
+  name: string;
+  shortTitle: string;
+  event: string;
+  award: string;
+  time: string;
+  year: string;
+  image: string;
+  rotation: number;
+  offsetY: number;
+  summary: string;
+  tags: string[];
+  metrics: string;
+  badgeStyle: string;
+  link: string;
+}
+
+const FEATURED_PROJECTS: FeaturedProjectBuild[] = [
+  {
+    id: "automesh",
+    name: "AutoMesh — Multi-Agent Research Engine",
+    shortTitle: "AutoMesh",
+    event: "Autonomous Systems & National AI",
+    award: "🏆 1ST PLACE WINNER",
+    badgeStyle: "text-amber-800 bg-amber-500/10 border-amber-600/30",
+    time: "36H SPRINT",
+    year: "2025",
+    image: "/hackathons/hack_1.jpg",
+    rotation: -8,
+    offsetY: 4,
+    summary:
+      "Distributed multi-agent pipeline that autonomously parses academic literature into structured knowledge graphs with source grounding and citation trees.",
+    tags: ["LangGraph", "FastAPI", "pgvector", "Claude 3.5"],
+    metrics: "Top 1% of 1,200+ Teams",
+    link: "https://github.com/Taksh254",
+  },
+  {
+    id: "edgevision",
+    name: "EdgeVision — Real-Time Anti-Spoofing",
+    shortTitle: "EdgeVision",
+    event: "Edge AI & Vision Biometrics",
+    award: "⚡ TOP 3 FINALIST",
+    badgeStyle: "text-emerald-800 bg-emerald-500/10 border-emerald-600/30",
+    time: "24H SPRINT",
+    year: "2025",
+    image: "/hackathons/hack_2.jpg",
+    rotation: -4,
+    offsetY: 1,
+    summary:
+      "Sub-50ms biometric facial verification running on ARM64 Raspberry Pi with IR texture liveness detection and anti-spoofing defense.",
+    tags: ["OpenCV", "PyTorch Mobile", "C++20", "ONNX"],
+    metrics: "99.2% Anti-Spoof Precision",
+    link: "https://github.com/Taksh254",
+  },
+  {
+    id: "dag-ledger",
+    name: "DAG-Ledger — High-Throughput State Sync",
+    shortTitle: "DAG-Ledger",
+    event: "Web3 Infra & Consensus Architecture",
+    award: "🌟 BEST ARCHITECTURE",
+    badgeStyle: "text-blue-800 bg-blue-500/10 border-blue-600/30",
+    time: "48H SPRINT",
+    year: "2024",
+    image: "/hackathons/hack_3.jpg",
+    rotation: 0,
+    offsetY: 0,
+    summary:
+      "Zero-copy consensus ledger leveraging Directed Acyclic Graph mempool pipelining and lock-free memory ring buffers.",
+    tags: ["Rust", "Tokio", "DAG", "gRPC"],
+    metrics: "42,000 tx/sec Throughput",
+    link: "https://github.com/Taksh254",
+  },
+  {
+    id: "neurovoice",
+    name: "NeuroVoice — Streaming Speech Synthesis",
+    shortTitle: "NeuroVoice",
+    event: "Realtime Multimodal AI Challenge",
+    award: "🥇 1ST PLACE INNOVATION",
+    badgeStyle: "text-purple-800 bg-purple-500/10 border-purple-600/30",
+    time: "36H SPRINT",
+    year: "2024",
+    image: "/hackathons/hack_4.jpg",
+    rotation: 4,
+    offsetY: 1,
+    summary:
+      "Ultra-low-latency conversational speech engine featuring end-to-end neural acoustic synthesis, emotional prosody, and chunked streaming.",
+    tags: ["Whisper", "WebRTC", "PyTorch", "Rust"],
+    metrics: "<120ms Ear-to-Glass Latency",
+    link: "https://github.com/Taksh254",
+  },
+  {
+    id: "visiondrone",
+    name: "VisionDrone — Autonomous Spatial SLAM",
+    shortTitle: "VisionDrone",
+    event: "Aerial Robotics & Drone Perception",
+    award: "🎯 RUNNER UP / IMPACT",
+    badgeStyle: "text-teal-800 bg-teal-500/10 border-teal-600/30",
+    time: "48H SPRINT",
+    year: "2024",
+    image: "/hackathons/hack_5.jpg",
+    rotation: 8,
+    offsetY: 4,
+    summary:
+      "Stereo-vision depth SLAM and real-time obstacle avoidance pipeline deployed on lightweight quadcopter companion compute boards.",
+    tags: ["ROS2", "YOLOv10", "DepthAI", "C++"],
+    metrics: "60 FPS Onboard SLAM",
+    link: "https://github.com/Taksh254",
+  },
+];
+
 export function FeaturedProjects({
   onSelectProject,
   onViewAll,
 }: FeaturedProjectsProps) {
-  const PROJECTS = [
-    {
-      num: "01",
-      id: "tatvam-chatbot",
-      title: "Tatvam Chatbot",
-      desc: "Conversational AI system with memory & context.",
-      tags: ["Python", "React", "LLM"],
-      preview: "chat",
-    },
-    {
-      num: "02",
-      id: "research-agent",
-      title: "Research Agent",
-      desc: "Autonomous research agent that finds, analyzes & reports.",
-      tags: ["Python", "LangChain", "API"],
-      preview: "dag",
-    },
-    {
-      num: "03",
-      id: "attendance-system",
-      title: "Attendance System",
-      desc: "Automated attendance management system.",
-      tags: ["React", "Node", "MongoDB"],
-      preview: "dashboard",
-    },
-  ];
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [selectedIdx, setSelectedIdx] = useState<number>(0);
+
+  const activeIdx = hoveredIdx !== null ? hoveredIdx : selectedIdx;
+  const activeProject = FEATURED_PROJECTS[activeIdx] || FEATURED_PROJECTS[0];
+
+  const handleCardClick = (idx: number, proj: FeaturedProjectBuild) => {
+    setSelectedIdx(idx);
+    if (onSelectProject) {
+      onSelectProject(proj.id);
+    } else if (proj.link) {
+      window.open(proj.link, "_blank");
+    }
+  };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <TypewriterHeader phrases={PROJECTS_PHRASES} initialDelay={150} />
-        <button
-          onClick={onViewAll}
-          type="button"
-          className="text-[10px] font-mono-tech tracking-wider text-[#33312E] hover:text-[#E6322A] transition-colors cursor-pointer flex items-center gap-1 font-medium shrink-0 whitespace-nowrap"
-        >
-          <span>View All</span>
-          <span>&rarr;</span>
-        </button>
-      </div>
+    <div className="w-full h-full flex flex-col justify-between select-none font-mono-tech">
+      {/* ── 1. Header ── */}
+      <div>
+        <div className="flex items-center justify-between mb-3 border-b border-[#D8D3C8]/70 pb-2.5">
+          <TypewriterHeader phrases={PROJECTS_PHRASES} initialDelay={150} />
 
-      {/* 3 Project Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {PROJECTS.map((p) => (
-          <div
-            key={p.id}
-            onClick={() => onSelectProject?.(p.id)}
-            className="group p-2.5 sm:p-3 apple-glass-card cursor-pointer flex flex-col justify-between"
-          >
-            {/* UI Preview Thumbnail */}
-            <div className="w-full h-20 sm:h-22 rounded-lg overflow-hidden relative mb-2 select-none border border-black/10 flex flex-col justify-between shadow-2xs">
-              {p.preview === "chat" && (
-                <div className="w-full h-full bg-[#11141B] p-1.5 flex gap-1.5 font-mono-tech text-[8px] text-[#A0AEC0]">
-                  {/* Left Sidebar */}
-                  <div className="w-1/4 h-full bg-[#161B26] rounded-2xs p-1 flex flex-col justify-between border-r border-[#22293A]">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#E6322A]" />
-                        <span className="text-[7.5px] font-bold text-white tracking-wide">Tatvam</span>
-                      </div>
-                      <div className="w-full h-0.5 bg-[#283246] rounded-xs" />
-                      <div className="w-4/5 h-0.5 bg-[#283246] rounded-xs" />
-                      <div className="w-3/5 h-0.5 bg-[#283246] rounded-xs" />
-                    </div>
-                    <div className="w-full h-1 bg-[#1F2738] rounded-xs" />
-                  </div>
-                  {/* Main Chat Area */}
-                  <div className="flex-1 h-full flex flex-col justify-between">
-                    <div className="space-y-1 pt-0.5">
-                      {/* User message */}
-                      <div className="self-end w-3/4 bg-[#1E2536] border border-[#2B354C] rounded-2xs p-0.5 ml-auto text-[6.5px] text-[#E2E8F0] truncate">
-                        Explain attention KV caching...
-                      </div>
-                      {/* Assistant response */}
-                      <div className="w-full bg-[#161B26] border border-[#232B3E] rounded-2xs p-0.5 space-y-0.5 text-[6.5px] text-[#CBD5E1]">
-                        <div className="w-full h-0.5 bg-[#3A4762] rounded-xs" />
-                        <div className="w-5/6 h-0.5 bg-[#3A4762] rounded-xs" />
-                      </div>
-                    </div>
-                    {/* Input box */}
-                    <div className="w-full h-3 bg-[#181F2E] border border-[#283248] rounded-xs flex items-center px-1.5 justify-between text-[6.5px] text-[#718096]">
-                      <span>Ask Tatvam...</span>
-                      <span className="text-[#38BDF8]">&crarr;</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {p.preview === "dag" && (
-                <div className="w-full h-full bg-[#0E1219] p-1.5 relative flex items-center justify-center font-mono-tech text-[6.5px]">
-                  {/* Top-Left Node */}
-                  <div className="absolute left-2 top-2 px-1 py-0.5 rounded-2xs bg-[#162032] border border-[#38BDF8]/60 text-[#7DD3FC] flex items-center gap-1 shadow-xs">
-                    <span className="w-1 h-1 rounded-full bg-[#38BDF8]" />
-                    <span>Query</span>
-                  </div>
-
-                  {/* Middle Node */}
-                  <div className="absolute left-1/2 -translate-x-1/2 top-7 px-1 py-0.5 rounded-2xs bg-[#241A34] border border-[#C084FC]/60 text-[#E9D5FF] flex items-center gap-1 shadow-xs">
-                    <span className="w-1 h-1 rounded-full bg-[#C084FC]" />
-                    <span>Planner</span>
-                  </div>
-
-                  {/* Right Node */}
-                  <div className="absolute right-2 top-2 px-1 py-0.5 rounded-2xs bg-[#132A20] border border-[#4ADE80]/60 text-[#86EFAC] flex items-center gap-1 shadow-xs">
-                    <span className="w-1 h-1 rounded-full bg-[#4ADE80]" />
-                    <span>Synthesis</span>
-                  </div>
-
-                  {/* Connecting SVG Curves */}
-                  <svg className="w-full h-full" viewBox="0 0 160 80" fill="none">
-                    <path d="M42 16 C70 16, 70 38, 80 38" stroke="#3A4864" strokeWidth="1.2" strokeDasharray="3 3" />
-                    <path d="M100 38 C115 38, 115 16, 126 16" stroke="#3A4864" strokeWidth="1.2" />
-                    <circle cx="80" cy="38" r="2" fill="#C084FC" />
-                    <circle cx="42" cy="16" r="1.5" fill="#38BDF8" />
-                    <circle cx="126" cy="16" r="1.5" fill="#4ADE80" />
-                  </svg>
-                  <div className="absolute bottom-1 right-2 text-[6px] text-[#64748B]">
-                    DAG RUNNING &bull; 140ms
-                  </div>
-                </div>
-              )}
-
-              {p.preview === "dashboard" && (
-                <div className="w-full h-full bg-[#FFFFFF] p-1.5 flex flex-col justify-between font-sans text-[6.5px] text-[#4A5568]">
-                  {/* Top KPI Widgets */}
-                  <div className="grid grid-cols-3 gap-1">
-                    <div className="p-0.5 rounded-2xs bg-[#F0FDF4] border border-[#BBF7D0] flex items-center justify-between">
-                      <span className="text-[6px] text-[#166534] font-semibold">99.4%</span>
-                      <span className="w-1 h-1 rounded-full bg-[#22C55E]" />
-                    </div>
-                    <div className="p-0.5 rounded-2xs bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-between">
-                      <span className="text-[6px] text-[#1E40AF] font-semibold">34ms</span>
-                      <span className="w-1 h-1 rounded-full bg-[#3B82F6]" />
-                    </div>
-                    <div className="p-0.5 rounded-2xs bg-[#FAF5FF] border border-[#E9D5FF] flex items-center justify-between">
-                      <span className="text-[6px] text-[#6B21A8] font-semibold">Live</span>
-                      <span className="w-1 h-1 rounded-full bg-[#A855F7]" />
-                    </div>
-                  </div>
-
-                  {/* Table Rows */}
-                  <div className="space-y-0.5 py-0.5 border-t border-b border-[#F1F5F9]">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-[#E2E8F0] inline-block" />
-                        <span className="text-[6.5px] font-medium text-[#1E293B]">Taksh S.</span>
-                      </div>
-                      <span className="px-1 py-0.2 rounded-2xs bg-[#DCFCE7] text-[#15803D] text-[5.5px] font-bold">VERIFIED</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-[#E2E8F0] inline-block" />
-                        <span className="text-[6.5px] font-medium text-[#1E293B]">Research Node</span>
-                      </div>
-                      <span className="px-1 py-0.2 rounded-2xs bg-[#DCFCE7] text-[#15803D] text-[5.5px] font-bold">ACTIVE</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center text-[6px] text-[#94A3B8]">
-                    <span>Automated Edge Sync</span>
-                    <span>Sheets &bull; WhatsApp</span>
-                  </div>
-                </div>
-              )}
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#E6322A]/8 border border-[#E6322A]/25 text-[#E6322A] text-[9px] font-bold tracking-wider shrink-0 whitespace-nowrap">
+              <FolderGit2 className="w-3 h-3 text-[#E6322A] shrink-0" />
+              <span>5 FEATURED BUILDS</span>
             </div>
 
-            {/* Title & Description */}
-            <div className="space-y-0.5 mb-1 font-mono-tech">
-              <div className="text-[11.5px] font-semibold text-[#111111] group-hover:text-[#E6322A] transition-colors flex items-center">
-                <span className="text-[#7A7770] font-normal mr-1.5">{p.num}</span>
-                <span>{p.title}</span>
-              </div>
-              <p className="text-[10px] text-[#555047] leading-snug font-sans line-clamp-2">
-                {p.desc}
-              </p>
-            </div>
+            <button
+              onClick={onViewAll}
+              type="button"
+              className="text-[9.5px] text-[#33312E] hover:text-[#E6322A] transition-colors cursor-pointer flex items-center gap-1 font-medium ml-1 shrink-0 whitespace-nowrap"
+            >
+              <span>View All</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
 
-            {/* Tags and Arrow */}
-            <div className="flex items-center justify-between pt-1.5 border-t border-black/[0.06]">
-              <div className="flex items-center gap-1 flex-wrap">
-                {p.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[8.5px] font-mono-tech px-2 py-0.5 rounded-full bg-black/[0.04] border border-black/[0.06] text-[#4A453C]"
+        {/* ── 2. Polaroid Fan Layout matching Reference Photo ── */}
+        <div className="relative w-full pt-3 pb-5 px-1 overflow-visible flex flex-col items-center justify-center">
+          {/* Subtitle / Interaction Hint */}
+          <div className="w-full flex items-center justify-between text-[8px] text-[#8C887E] tracking-wider mb-2.5 px-1">
+            <span className="flex items-center gap-1 uppercase">
+              <Sparkles className="w-2.5 h-2.5 text-[#E6322A]" />
+              <span>PROJECT GALLERY // HOVER TO EXPAND</span>
+            </span>
+            <span className="font-mono-tech">
+              [{activeIdx + 1}/5] {activeProject.time}
+            </span>
+          </div>
+
+          {/* Overlapping Polaroid Cards Fan */}
+          <div className="relative flex items-center justify-center w-full min-h-[170px] sm:min-h-[185px] overflow-visible py-3">
+            {FEATURED_PROJECTS.map((proj, idx) => {
+              const isHovered = hoveredIdx === idx;
+
+              // Resting overlap: all cards after first card have negative margin
+              const marginClass = idx === 0 ? "" : "-ml-5 sm:-ml-6 md:-ml-7";
+
+              return (
+                <div
+                  key={proj.id}
+                  onMouseEnter={() => {
+                    setHoveredIdx(idx);
+                    setSelectedIdx(idx);
+                  }}
+                  onMouseLeave={() => setHoveredIdx(null)}
+                  onClick={() => handleCardClick(idx, proj)}
+                  style={{
+                    transform: isHovered
+                      ? "scale(1.38) translateY(-18px) rotate(0deg)"
+                      : `rotate(${proj.rotation}deg) translateY(${proj.offsetY}px)`,
+                    zIndex: isHovered ? 50 : idx + 1,
+                    transition:
+                      "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, z-index 0s",
+                  }}
+                  className={`relative shrink-0 cursor-pointer ${marginClass} rounded-[3px] bg-white p-1.5 sm:p-2 pb-6 sm:pb-7 ${
+                    isHovered
+                      ? "shadow-[0_24px_48px_rgba(0,0,0,0.32),0_6px_16px_rgba(0,0,0,0.18)] ring-2 ring-[#E6322A]/60"
+                      : "shadow-[0_6px_18px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.06)] border border-[#E2DDD3]"
+                  } w-[86px] sm:w-[96px] md:w-[104px] select-none group`}
+                >
+                  {/* Photo Area */}
+                  <div className="relative w-full aspect-square bg-[#1A1917] overflow-hidden rounded-[1px] shadow-[inset_0_0_4px_rgba(0,0,0,0.22)]">
+                    <img
+                      src={proj.image}
+                      alt={proj.name}
+                      className={`w-full h-full object-cover transition-transform duration-500 ${
+                        isHovered ? "scale-110" : "scale-100"
+                      }`}
+                      loading="eager"
+                    />
+
+                    {/* Subtle Polaroid Gloss Sheen */}
+                    <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-black/20 via-transparent to-white/20 mix-blend-overlay" />
+
+                    {/* Hover Overlay Badge */}
+                    <div
+                      className={`absolute inset-x-0 bottom-0 p-1 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex flex-col items-center justify-end text-center transition-opacity duration-200 ${
+                        isHovered ? "opacity-100" : "opacity-0"
+                      }`}
+                    >
+                      <span className="text-[8px] font-mono-tech font-bold text-white tracking-wider leading-none">
+                        {proj.year} • {proj.time}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Polaroid Chin with Authentic Handwritten Title */}
+                  <div
+                    className={`absolute inset-x-0 bottom-0 h-6 sm:h-7 flex items-center ${
+                      isHovered || idx === 4
+                        ? "justify-center px-1"
+                        : "justify-start pl-2 pr-6"
+                    }`}
                   >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <ArrowUpRight
-                style={{ width: 13, height: 13 }}
-                className="text-[#7A7770] group-hover:text-[#111111] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0 ml-1"
-              />
+                    <span
+                      className={`font-caveat font-bold text-[#22201D] tracking-tight leading-none whitespace-nowrap overflow-hidden text-ellipsis transition-all ${
+                        isHovered
+                          ? "text-[13px] sm:text-[14px] text-[#E6322A]"
+                          : "text-[10.5px] sm:text-[11.5px]"
+                      }`}
+                    >
+                      {proj.shortTitle}
+                    </span>
+                  </div>
+
+                  {/* Corner External Link Badge on Hover */}
+                  {isHovered && (
+                    <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#E6322A] text-white flex items-center justify-center shadow-lg animate-in fade-in zoom-in-75 duration-200 border border-white">
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── 3. Connected Active Telemetry Card ── */}
+        <div className="p-3.5 rounded-xl apple-glass-card border border-[#D8D3C8]/80 transition-all duration-300 relative overflow-hidden">
+          {/* Subtle Top Progress Indicator */}
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span
+                className={`px-2 py-0.5 rounded-md border text-[8.5px] font-bold tracking-wider ${activeProject.badgeStyle}`}
+              >
+                {activeProject.award}
+              </span>
+              <span className="text-[8.5px] text-[#7A7770] uppercase tracking-wide truncate max-w-[170px] sm:max-w-[240px]">
+                {activeProject.event}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-black/[0.04] border border-[#D8D3C8]/60 text-[8px] text-[#7A7770] shrink-0 font-mono-tech">
+              <Clock className="w-2.5 h-2.5 text-[#E6322A]" />
+              <span>{activeProject.time}</span>
             </div>
           </div>
-        ))}
+
+          {/* Title & Description */}
+          <div className="mb-2">
+            <h4
+              className="font-bold text-[12.5px] text-[#111111] flex items-center justify-between group cursor-pointer"
+              onClick={() => {
+                if (activeProject.link) window.open(activeProject.link, "_blank");
+              }}
+            >
+              <span className="hover:text-[#E6322A] transition-colors">
+                {activeProject.name}
+              </span>
+              <span className="text-[9px] text-[#E6322A] flex items-center gap-1 font-mono-tech shrink-0 ml-2 group-hover:underline">
+                <span>View Build</span>
+                <ChevronRight className="w-3 h-3" />
+              </span>
+            </h4>
+            <p className="text-[10.5px] text-[#555047] leading-relaxed pt-1 font-sans">
+              {activeProject.summary}
+            </p>
+          </div>
+
+          {/* Footer: Tags & Metrics */}
+          <div className="flex items-center justify-between pt-2 border-t border-[#E8E4DA]/70 text-[8.5px]">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {activeProject.tags.map((t) => (
+                <span
+                  key={t}
+                  className="px-1.5 py-0.5 rounded bg-black/[0.04] text-[#66635D] text-[8px] font-mono-tech"
+                >
+                  #{t}
+                </span>
+              ))}
+            </div>
+
+            <span className="text-[#111111] font-semibold text-[8px] tracking-wide font-mono-tech shrink-0">
+              {activeProject.metrics}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 4. Bottom Sprint Telemetry Status ── */}
+      <div className="mt-3 pt-2.5 border-t border-[#D8D3C8]/70 flex items-center justify-between text-[8.5px] text-[#7A7770]">
+        <span>[ ARCHITECTURE: FULL-STACK AI & HIGH-THROUGHPUT SYSTEMS ]</span>
+        <span className="text-[#111111] font-semibold flex items-center gap-1">
+          <Zap className="w-2.5 h-2.5 text-[#E6322A]" />
+          <span>100% PROTOTYPE &rarr; PROD</span>
+        </span>
       </div>
     </div>
   );

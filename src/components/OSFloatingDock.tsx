@@ -5,7 +5,7 @@ import {
   Home,
   FolderGit2,
   FlaskConical,
-  Trophy,
+  BookOpen,
   User,
   Mail,
 } from "lucide-react";
@@ -26,7 +26,7 @@ export function OSFloatingDock({
   ];
 
   const ITEMS_RIGHT = [
-    { id: "notes", label: "Hackathons", icon: Trophy },
+    { id: "notes", label: "Notes", icon: BookOpen },
     { id: "about", label: "About", icon: User },
     { id: "contact", label: "Contact", icon: Mail },
   ];
