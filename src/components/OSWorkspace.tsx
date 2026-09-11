@@ -120,13 +120,8 @@ export function OSWorkspace() {
       {/* ── Live Atmospheric Falling Leaves (Continuous Loop) ── */}
       <LiveFallingLeaves />
 
-      {/* Bottom Left System Version Tag */}
-      <div className="fixed left-5 sm:left-6 bottom-3.5 font-mono-tech text-[10px] text-[#7A7770] tracking-wider pointer-events-none select-none z-20">
-        TAKSH.OS &nbsp;// &nbsp;v2.1.0
-      </div>
-
       {/* ── 2. Main Open Editorial Canvas ── */}
-      <main className="w-full max-w-[1640px] mx-auto px-4 sm:px-6 md:px-8 lg:pl-[300px] xl:pl-[340px] lg:pr-6 xl:pr-8 flex flex-col gap-6 relative z-10">
+      <main className="w-full max-w-[1640px] mx-auto px-4 sm:px-6 md:px-8 lg:pl-[300px] xl:pl-[340px] lg:pr-6 xl:pr-8 flex flex-col gap-6 pb-24 relative z-10">
         {/* ── Section 01: Hero (Welcome + Polaroid + Currently) ── */}
         <HeroSection
           onExploreClick={() => scrollToSection("projects")}
@@ -198,19 +193,6 @@ export function OSWorkspace() {
           <ContactSection />
         </section>
       </main>
-
-      {/* ── 3. Atmospheric Footer (Clean, unencumbered, separated) ── */}
-      <footer className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-12 pb-8 border-t border-[#D8D3C8]/70 flex flex-col sm:flex-row items-center justify-between gap-4 relative select-none">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#E6322A]" />
-          <span className="font-mono-tech text-[10.5px] text-[#7A7770]">
-            TAKSH.OS &bull; KERNEL v2.1.0 &bull; SYSTEM ONLINE &bull; {new Date().getFullYear()}
-          </span>
-        </div>
-        <div className="font-mono-tech text-[10px] text-[#A8A49B]">
-          [ ALL SYSTEMS NOMINAL &bull; 100% PASS ]
-        </div>
-      </footer>
 
       {/* ── 4. Primary Floating Island Navigation (Bottom Center) ── */}
       <OSFloatingDock
