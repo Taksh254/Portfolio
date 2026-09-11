@@ -5,6 +5,14 @@ import { BookOpen } from "lucide-react";
 import { PolaroidPhoto } from "./PolaroidPhoto";
 import { CurrentlyCard } from "./CurrentlyCard";
 import { GlassMusicPlayer } from "./GlassMusicPlayer";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const HERO_PHRASES = [
+  "// 01  WELCOME // TAKSH.OS",
+  "// AI SYSTEMS & ARCHITECTURE",
+  "// SYSTEM ONLINE: ALL NOMINAL",
+  "// KERNEL v2.1.0 // INITIALIZED",
+];
 
 interface HeroSectionProps {
   onExploreClick?: () => void;
@@ -25,9 +33,7 @@ export function HeroSection({
         {/* ── Left 5 Columns: Welcome, Identity, Bio, CTAs & Annotation ── */}
         <div className="lg:col-span-5 space-y-1.5 relative pr-1">
           {/* Section Identifier */}
-          <div className="text-[10px] font-mono-tech tracking-[0.2em] text-[#7A7770] uppercase font-semibold">
-            // 01 &nbsp; WELCOME
-          </div>
+          <TypewriterHeader phrases={HERO_PHRASES} initialDelay={100} />
 
           <div className="relative">
             {/* Heading with Serif Typography */}

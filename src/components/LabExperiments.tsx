@@ -1,6 +1,14 @@
 "use client";
 
 import React from "react";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const LAB_PHRASES = [
+  "// 05  LAB // EXPERIMENTS",
+  "// TELEMETRY & MULTI-AGENTS",
+  "// AUTONOMOUS RESEARCH PIPELINES",
+  "// BENCHMARKING: ACTIVE",
+];
 
 interface LabExperimentsProps {
   onSelectExperiment?: (id: string) => void;
@@ -50,12 +58,7 @@ export function LabExperiments({
     <div className="w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs" />
-          <span className="text-[10.5px] font-mono-tech tracking-[0.2em] text-[#7A7770] uppercase font-semibold">
-            // 05 &nbsp; LAB
-          </span>
-        </div>
+        <TypewriterHeader phrases={LAB_PHRASES} initialDelay={250} />
         <button
           onClick={onViewAll}
           type="button"

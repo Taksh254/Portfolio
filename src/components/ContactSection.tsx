@@ -3,6 +3,14 @@
 import React, { useState } from "react";
 import { PROFILE } from "@/data/profile";
 import { Copy, Check, Send } from "lucide-react";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const CONTACT_PHRASES = [
+  "// 09  CONTACT // TRANSMISSION TERMINAL",
+  "// DIRECT FREQUENCY // INQUIRIES",
+  "// SECURE COMMS: TAKSH.SEHRAWAT.DEV",
+  "// OPEN FOR COLLABORATION & RESEARCH",
+];
 
 export function ContactSection() {
   const [copied, setCopied] = useState(false);
@@ -28,12 +36,7 @@ export function ContactSection() {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="flex items-center gap-2 mb-5">
-        <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs" />
-        <span className="text-[10.5px] font-mono-tech tracking-[0.2em] text-[#7A7770] uppercase font-semibold">
-          // 08 &nbsp; CONTACT // TRANSMISSION TERMINAL
-        </span>
-      </div>
+      <TypewriterHeader phrases={CONTACT_PHRASES} className="mb-5" initialDelay={400} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start font-mono-tech">
         {/* Left: Direct Inquiry */}

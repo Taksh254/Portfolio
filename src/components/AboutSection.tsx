@@ -2,17 +2,20 @@
 
 import React from "react";
 import { PROFILE } from "@/data/profile";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const ABOUT_PHRASES = [
+  "// 08  ABOUT // PROFILE SPECIFICATION",
+  "// SYSTEM SPEC: TAKSH SEHRAWAT",
+  "// CORE: AI SYSTEMS & ARCHITECTURE",
+  "// AVAILABLE FOR RESEARCH & BUILDS",
+];
 
 export function AboutSection() {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="flex items-center gap-2 mb-5">
-        <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs" />
-        <span className="text-[10.5px] font-mono-tech tracking-[0.2em] text-[#7A7770] uppercase font-semibold">
-          // 07 &nbsp; ABOUT // PROFILE SPECIFICATION
-        </span>
-      </div>
+      <TypewriterHeader phrases={ABOUT_PHRASES} className="mb-5" initialDelay={350} />
 
       {/* Profile Document Sheet */}
       <div className="p-6 md:p-8 apple-glass-card space-y-6 font-mono-tech">

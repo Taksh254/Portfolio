@@ -13,6 +13,14 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const SKILLS_PHRASES = [
+  "// 06  SKILLS // MODULES",
+  "// ENGINEERING MODULES // 8 LOADED",
+  "// PYTHON // REACT // LLM // ROS",
+  "// RUNTIME: NODE+PY // LINUX",
+];
 
 export function SystemsSkills() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -99,16 +107,11 @@ export function SystemsSkills() {
       {/* Header */}
       <div>
         <div className="flex items-center justify-between mb-3 border-b border-[#D8D3C8]/70 pb-2.5">
-          <div className="flex items-center gap-2">
-            <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs" />
-            <span className="text-[9.5px] sm:text-[10px] font-mono-tech tracking-wider text-[#7A7770] uppercase font-semibold">
-              // 06 &nbsp; SKILLS // MODULES
-            </span>
-          </div>
+          <TypewriterHeader phrases={SKILLS_PHRASES} initialDelay={300} />
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {/* Page indicator pill */}
-            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/[0.04] border border-[#D8D3C8]/60 text-[8.5px] font-mono-tech text-[#7A7770]">
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/[0.04] border border-[#D8D3C8]/60 text-[8.5px] font-mono-tech text-[#7A7770] shrink-0 whitespace-nowrap">
               <span>{activePage === 0 ? "MOD 01-04" : "MOD 05-08"}</span>
               <span className="text-[#111111] font-bold">
                 [{activePage + 1}/2]

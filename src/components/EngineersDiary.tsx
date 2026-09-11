@@ -1,6 +1,14 @@
 "use client";
 
 import React from "react";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const DIARY_PHRASES = [
+  "// 04  ENGINEER'S DIARY",
+  "// LAB NOTES & ARCHITECTURE",
+  "// TRANSFORMERS & ATTENTION",
+  "// DISTRIBUTED REASONING",
+];
 
 interface EngineersDiaryProps {
   onSelectEntry?: (id: string) => void;
@@ -15,9 +23,7 @@ export function EngineersDiary({
     <div className="w-full h-full flex flex-col justify-between">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <div className="text-[10px] font-mono-tech tracking-[0.2em] text-[#7A7770] uppercase font-semibold">
-          // 04 &nbsp; ENGINEER&apos;S DIARY
-        </div>
+        <TypewriterHeader phrases={DIARY_PHRASES} initialDelay={200} />
         <button
           onClick={onViewAll}
           type="button"

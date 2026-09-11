@@ -5,6 +5,8 @@ import { ExternalLink } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import contributionsData from "@/data/githubContributions.json";
 
+import { TypewriterHeader } from "./TypewriterHeader";
+
 interface GitContributorProps {
   onOpenGitHub?: () => void;
 }
@@ -15,49 +17,6 @@ const TYPEWRITER_PHRASES = [
   "// 126 COMMITS SYNCED",
   "// CADENCE: ACTIVE",
 ];
-
-function TypewriterHeader() {
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const targetPhrase = TYPEWRITER_PHRASES[phraseIdx];
-    let timeout: NodeJS.Timeout;
-
-    if (!isDeleting && displayText === targetPhrase) {
-      // Pause at full text
-      timeout = setTimeout(() => setIsDeleting(true), 2800);
-    } else if (isDeleting && displayText === "") {
-      // Advance to next phrase
-      setIsDeleting(false);
-      setPhraseIdx((prev) => (prev + 1) % TYPEWRITER_PHRASES.length);
-      timeout = setTimeout(() => {}, 350);
-    } else {
-      // Type or delete characters
-      const speed = isDeleting ? 25 : 55;
-      timeout = setTimeout(() => {
-        setDisplayText((prev) =>
-          isDeleting
-            ? targetPhrase.substring(0, prev.length - 1)
-            : targetPhrase.substring(0, prev.length + 1)
-        );
-      }, speed);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, phraseIdx]);
-
-  return (
-    <div className="flex items-center gap-2 min-h-[22px]">
-      <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs shrink-0" />
-      <span className="text-[9.5px] sm:text-[10px] font-mono-tech tracking-wider text-[#7A7770] uppercase font-semibold truncate">
-        {displayText}
-      </span>
-      <span className="inline-block w-1.5 h-3 bg-[#E6322A] animate-pulse shrink-0" />
-    </div>
-  );
-}
 
 export function GitContributor({ onOpenGitHub }: GitContributorProps) {
   const [hoveredDay, setHoveredDay] = useState<{
@@ -134,7 +93,7 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
     <div className="w-full h-full flex flex-col justify-between select-none">
       {/* ── Top Bar: Animated Typing on Left & Taksh254 on Right ── */}
       <div className="flex items-center justify-between w-full pb-2.5 border-b border-[#D8D3C8]/70">
-        <TypewriterHeader />
+        <TypewriterHeader phrases={TYPEWRITER_PHRASES} />
 
         <a
           href="https://github.com/Taksh254"

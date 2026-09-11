@@ -2,6 +2,14 @@
 
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const PROJECTS_PHRASES = [
+  "// 03  FEATURED PROJECTS",
+  "// PRODUCTION BUILDS & AGENTS",
+  "// TATVAM // RESEARCH AGENT",
+  "// ARCHITECTURE: FULL-STACK AI",
+];
 
 interface FeaturedProjectsProps {
   onSelectProject?: (id: string) => void;
@@ -43,9 +51,7 @@ export function FeaturedProjects({
     <div className="w-full h-full flex flex-col justify-between">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <div className="text-[10px] font-mono-tech tracking-[0.2em] text-[#7A7770] uppercase font-semibold">
-          // 03 &nbsp; FEATURED PROJECTS
-        </div>
+        <TypewriterHeader phrases={PROJECTS_PHRASES} initialDelay={150} />
         <button
           onClick={onViewAll}
           type="button"

@@ -2,6 +2,14 @@
 
 import React from "react";
 import { Package, BookOpen, Compass, Newspaper } from "lucide-react";
+import { TypewriterHeader } from "./TypewriterHeader";
+
+const CURRENTLY_PHRASES = [
+  "// 02  CURRENTLY",
+  "// ACTIVE RESEARCH",
+  "// REAL-TIME FOCUS",
+  "// AUTONOMOUS STACK",
+];
 
 export function CurrentlyCard() {
   const ITEMS = [
@@ -57,9 +65,7 @@ export function CurrentlyCard() {
 
           {/* Header */}
           <div className="flex items-center justify-between pb-1.5 border-b border-black/[0.08] mb-1.5">
-            <span className="text-[10px] font-mono-tech tracking-[0.16em] text-[#7A7770] uppercase font-semibold">
-              // 02 &nbsp; CURRENTLY
-            </span>
+            <TypewriterHeader phrases={CURRENTLY_PHRASES} showAccentBar={false} initialDelay={250} />
             <span className="text-[9.5px] font-mono-tech tracking-wider text-[#E6322A] font-bold flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#E6322A] animate-pulse" />
               LIVE
