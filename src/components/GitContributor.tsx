@@ -1,15 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import {
-  ExternalLink,
-  GitCommit,
-  GitBranch,
-  Copy,
-  Check,
-  FolderGit2,
-  Terminal,
-} from "lucide-react";
+import { ExternalLink, GitCommit, Calendar, Flame } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import contributionsData from "@/data/githubContributions.json";
 
@@ -18,7 +10,6 @@ interface GitContributorProps {
 }
 
 export function GitContributor({ onOpenGitHub }: GitContributorProps) {
-  const [copied, setCopied] = useState(false);
   const [hoveredDay, setHoveredDay] = useState<{
     date: string;
     level: number;
@@ -42,24 +33,23 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
     return result;
   }, []);
 
-  const handleCopyClone = () => {
-    navigator.clipboard.writeText("git clone https://github.com/Taksh254/Portfolio.git");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  // Cell color classes based on level
+  // Theme-matched palette: Warm terracotta / signature red gradient matching TAKSH.OS
   const getCellColor = (level: number) => {
     switch (level) {
       case 1:
-        return "bg-[#85E89D] border-[#69D182]";
+        // Soft warm blush
+        return "bg-[#F6CFCB] border-[#EEA7A1]";
       case 2:
-        return "bg-[#34D058] border-[#2EB64D]";
+        // Medium terracotta
+        return "bg-[#E88680] border-[#DB635B]";
       case 3:
-        return "bg-[#28A745] border-[#1F8637]";
+        // Vibrant signature red
+        return "bg-[#DE4138] border-[#C42B23]";
       case 4:
-        return "bg-[#196C2E] border-[#125021]";
+        // Deep rich crimson
+        return "bg-[#A81812] border-[#8A0E08]";
       default:
+        // Paper background neutral
         return "bg-[#EAE6DC] border-[#DDD8CD]";
     }
   };
@@ -68,18 +58,18 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
     <div className="w-full h-full flex flex-col justify-between select-none">
       {/* ── 1. Header ── */}
       <div>
-        <div className="flex items-center justify-between mb-3 border-b border-[#D8D3C8]/70 pb-3">
+        <div className="flex items-center justify-between mb-3.5 border-b border-[#D8D3C8]/70 pb-3">
           <div className="flex items-center gap-2">
             <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs" />
-            <span className="text-[10.5px] font-mono-tech tracking-[0.2em] text-[#7A7770] uppercase font-semibold">
-              // 07 &nbsp; GITHUB // CONTRIBUTION MATRIX
+            <span className="text-[10px] sm:text-[10.5px] font-mono-tech tracking-wider text-[#7A7770] uppercase font-semibold">
+              // 07 &nbsp; GITHUB // CONTRIBUTIONS
             </span>
           </div>
 
           <div className="flex items-center gap-3">
             {/* Live Status Pulse */}
-            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 text-[9.5px] font-mono-tech">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#E6322A]/8 border border-[#E6322A]/25 text-[#E6322A] text-[9.5px] font-mono-tech">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E6322A] animate-pulse" />
               <span>LIVE SYNC</span>
             </div>
 
@@ -88,76 +78,50 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
               href="https://github.com/Taksh254"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-[10.5px] font-mono-tech text-[#111111] hover:text-[#E6322A] transition-colors"
+              className="flex items-center gap-1.5 text-[10.5px] font-mono-tech text-[#111111] hover:text-[#E6322A] transition-colors"
             >
               <GithubIcon className="w-3.5 h-3.5" />
               <span>@Taksh254</span>
-              <ExternalLink className="w-2.5 h-2.5" />
+              <ExternalLink className="w-2.5 h-2.5 text-[#7A7770]" />
             </a>
           </div>
         </div>
 
-        {/* ── 2. Identity & Summary Metrics ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
-          <div className="p-2.5 rounded-lg bg-black/[0.02] border border-[#D8D3C8]/60 flex items-center gap-2.5">
-            <div className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-700">
-              <GitCommit className="w-3.5 h-3.5" />
+        {/* ── 2. Primary Contribution Metrics Bar ── */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+          <div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl sm:text-4xl font-extrabold font-mono-tech text-[#111111] tracking-tight">
+                {contributionsData.totalContributions}
+              </span>
+              <span className="text-xs font-mono-tech text-[#7A7770] uppercase tracking-wider">
+                contributions in the last year
+              </span>
             </div>
-            <div>
-              <div className="text-[13px] font-bold font-mono-tech text-[#111111] leading-none">
-                {contributionsData.totalContributions}+
-              </div>
-              <div className="text-[9px] font-mono-tech text-[#7A7770] tracking-wider pt-0.5 uppercase">
-                Contributions
-              </div>
-            </div>
-          </div>
-
-          <div className="p-2.5 rounded-lg bg-black/[0.02] border border-[#D8D3C8]/60 flex items-center gap-2.5">
-            <div className="p-1.5 rounded-md bg-blue-500/10 text-blue-700">
-              <FolderGit2 className="w-3.5 h-3.5" />
-            </div>
-            <div>
-              <div className="text-[13px] font-bold font-mono-tech text-[#111111] leading-none">
-                10 Repos
-              </div>
-              <div className="text-[9px] font-mono-tech text-[#7A7770] tracking-wider pt-0.5 uppercase">
-                Public Code
-              </div>
+            <div className="text-[10px] font-mono-tech text-[#8A867E] pt-0.5">
+              Across public repositories, active DAG pipelines &amp; open experiments
             </div>
           </div>
 
-          <div className="p-2.5 rounded-lg bg-black/[0.02] border border-[#D8D3C8]/60 flex items-center gap-2.5">
-            <div className="p-1.5 rounded-md bg-amber-500/10 text-amber-700">
-              <GitBranch className="w-3.5 h-3.5" />
+          {/* Metric Badges */}
+          <div className="flex items-center gap-2 font-mono-tech">
+            <div className="px-2.5 py-1 rounded-md bg-black/[0.03] border border-[#D8D3C8]/60 text-center">
+              <div className="text-[11px] font-bold text-[#111111]">10</div>
+              <div className="text-[8.5px] text-[#7A7770] uppercase">Repos</div>
             </div>
-            <div>
-              <div className="text-[13px] font-bold font-mono-tech text-[#111111] leading-none">
-                Active
-              </div>
-              <div className="text-[9px] font-mono-tech text-[#7A7770] tracking-wider pt-0.5 uppercase">
-                Commit Cadence
-              </div>
+            <div className="px-2.5 py-1 rounded-md bg-black/[0.03] border border-[#D8D3C8]/60 text-center">
+              <div className="text-[11px] font-bold text-[#111111]">35</div>
+              <div className="text-[8.5px] text-[#7A7770] uppercase">Active Days</div>
             </div>
-          </div>
-
-          <div className="p-2.5 rounded-lg bg-black/[0.02] border border-[#D8D3C8]/60 flex items-center gap-2.5">
-            <div className="p-1.5 rounded-md bg-purple-500/10 text-purple-700">
-              <Terminal className="w-3.5 h-3.5" />
-            </div>
-            <div>
-              <div className="text-[13px] font-bold font-mono-tech text-[#111111] leading-none">
-                AI / Systems
-              </div>
-              <div className="text-[9px] font-mono-tech text-[#7A7770] tracking-wider pt-0.5 uppercase">
-                Primary Core
-              </div>
+            <div className="px-2.5 py-1 rounded-md bg-black/[0.03] border border-[#D8D3C8]/60 text-center">
+              <div className="text-[11px] font-bold text-[#E6322A]">Active</div>
+              <div className="text-[8.5px] text-[#7A7770] uppercase">Cadence</div>
             </div>
           </div>
         </div>
 
         {/* ── 3. GitHub Calendar Heatmap Matrix ── */}
-        <div className="p-3 sm:p-4 rounded-xl bg-white/60 border border-[#D8D3C8]/80 shadow-2xs overflow-hidden">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-white/65 border border-[#D8D3C8]/80 shadow-2xs overflow-hidden">
           {/* Month labels banner */}
           <div className="flex items-center justify-between text-[9px] font-mono-tech text-[#7A7770] mb-2 px-1">
             <span>Sep</span>
@@ -194,7 +158,7 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
                       onMouseEnter={() => setHoveredDay(day)}
                       onMouseLeave={() => setHoveredDay(null)}
                       title={day.tooltip || `${day.level} contributions on ${day.date}`}
-                      className={`w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-2xs border transition-transform hover:scale-130 hover:z-20 cursor-pointer ${getCellColor(
+                      className={`w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-2xs border transition-transform hover:scale-135 hover:z-20 cursor-pointer ${getCellColor(
                         day.level
                       )}`}
                     />
@@ -204,59 +168,36 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
             </div>
           </div>
 
-          {/* Heatmap Footer: Hover tooltip & Legend */}
-          <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-[#E8E4DA] text-[10px] font-mono-tech">
-            <div className="text-[#66635D] truncate max-w-[320px]">
+          {/* Heatmap Footer: Hover tooltip & Theme Legend */}
+          <div className="flex items-center justify-between pt-2.5 mt-2.5 border-t border-[#E8E4DA] text-[10px] font-mono-tech">
+            <div className="text-[#66635D] truncate max-w-[340px]">
               {hoveredDay ? (
-                <span className="font-medium text-[#111111]">
+                <span className="font-semibold text-[#111111]">
                   {hoveredDay.tooltip || `${hoveredDay.date}`}
                 </span>
               ) : (
-                <span>Hover over squares to inspect contributions</span>
+                <span className="text-[#8A867E]">Hover over cells to inspect daily commits</span>
               )}
             </div>
 
-            {/* Legend */}
+            {/* Legend matching theme */}
             <div className="flex items-center gap-1 text-[#7A7770] text-[9.5px]">
               <span>Less</span>
-              <span className="w-2.5 h-2.5 rounded-2xs bg-[#EAE6DC] border border-[#DDD8CD]" />
-              <span className="w-2.5 h-2.5 rounded-2xs bg-[#85E89D] border-[#69D182]" />
-              <span className="w-2.5 h-2.5 rounded-2xs bg-[#34D058] border-[#2EB64D]" />
-              <span className="w-2.5 h-2.5 rounded-2xs bg-[#28A745] border-[#1F8637]" />
-              <span className="w-2.5 h-2.5 rounded-2xs bg-[#196C2E] border-[#125021]" />
+              <span className="w-2.5 h-2.5 rounded-2xs bg-[#EAE6DC] border border-[#DDD8CD]" title="0 contributions" />
+              <span className="w-2.5 h-2.5 rounded-2xs bg-[#F6CFCB] border border-[#EEA7A1]" title="1-2 contributions" />
+              <span className="w-2.5 h-2.5 rounded-2xs bg-[#E88680] border border-[#DB635B]" title="3-4 contributions" />
+              <span className="w-2.5 h-2.5 rounded-2xs bg-[#DE4138] border border-[#C42B23]" title="5-6 contributions" />
+              <span className="w-2.5 h-2.5 rounded-2xs bg-[#A81812] border border-[#8A0E08]" title="7+ contributions" />
               <span>More</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── 4. Quick Clone Command Box ── */}
-      <div className="mt-3 pt-3 border-t border-[#D8D3C8]/70 flex flex-col sm:flex-row items-center justify-between gap-2.5">
-        <div className="flex items-center gap-2 text-[10px] font-mono-tech text-[#66635D]">
-          <Terminal className="w-3.5 h-3.5 text-[#111111]" />
-          <span>Quick Clone:</span>
-          <code className="px-2 py-0.5 rounded bg-black/[0.04] border border-[#D8D3C8]/60 text-[#111111] text-[9.5px] font-mono">
-            git clone https://github.com/Taksh254/Portfolio.git
-          </code>
-        </div>
-
-        <button
-          onClick={handleCopyClone}
-          type="button"
-          className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#111111] text-[#FCFAF4] hover:bg-[#262626] text-[10px] font-mono-tech transition-colors cursor-pointer shrink-0"
-        >
-          {copied ? (
-            <>
-              <Check className="w-3 h-3 text-emerald-400" />
-              <span>COPIED</span>
-            </>
-          ) : (
-            <>
-              <Copy className="w-3 h-3" />
-              <span>COPY COMMAND</span>
-            </>
-          )}
-        </button>
+      {/* ── 4. Card Bottom Status Strip ── */}
+      <div className="mt-3 pt-3 border-t border-[#D8D3C8]/70 flex items-center justify-between text-[9px] font-mono-tech text-[#7A7770]">
+        <span>SOURCE: GITHUB.COM/TAKSH254 &bull; 52 WEEKS</span>
+        <span className="text-[#111111] font-medium">ACTIVITY INDEX: 100% VERIFIED</span>
       </div>
     </div>
   );
