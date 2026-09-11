@@ -7,6 +7,7 @@ import { FeaturedProjects } from "./FeaturedProjects";
 import { EngineersDiary } from "./EngineersDiary";
 import { LabExperiments } from "./LabExperiments";
 import { SystemsSkills } from "./SystemsSkills";
+import { GitContributor } from "./GitContributor";
 import { AboutSection } from "./AboutSection";
 import { ContactSection } from "./ContactSection";
 import { OSFloatingDock } from "./OSFloatingDock";
@@ -174,10 +175,18 @@ export function OSWorkspace() {
           />
         </section>
 
-        {/* ── Section 04: Systems & Skills ── */}
-        <section id="skills" className="apple-glass-section p-5 sm:p-7 md:p-8 relative z-10">
-          <SystemsSkills />
-        </section>
+        {/* ── Section 04: Systems & Skills + Git Contributor ── */}
+        <div id="skills" className="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+          {/* Left Side: Skills / Engineering Modules (Square) */}
+          <div className="lg:col-span-5 apple-glass-section p-4 sm:p-5 md:p-6 flex flex-col justify-between">
+            <SystemsSkills />
+          </div>
+
+          {/* Right Side: Git Contributor Matrix */}
+          <div className="lg:col-span-7 apple-glass-section p-4 sm:p-5 md:p-6 flex flex-col justify-between">
+            <GitContributor onOpenGitHub={() => window.open("https://github.com/Taksh254", "_blank")} />
+          </div>
+        </div>
 
         {/* ── Section 05: About Specification Sheet ── */}
         <section id="about" className="apple-glass-section p-5 sm:p-7 md:p-8 relative z-10">
