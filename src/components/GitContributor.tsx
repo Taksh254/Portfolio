@@ -1,12 +1,62 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { ExternalLink } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import contributionsData from "@/data/githubContributions.json";
 
 interface GitContributorProps {
   onOpenGitHub?: () => void;
+}
+
+const TYPEWRITER_PHRASES = [
+  "// 07  GITHUB // CONTRIBUTIONS",
+  "// CONTRIBUTIONS // 2025 - 2026",
+  "// 126 COMMITS SYNCED",
+  "// CADENCE: ACTIVE",
+];
+
+function TypewriterHeader() {
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const targetPhrase = TYPEWRITER_PHRASES[phraseIdx];
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting && displayText === targetPhrase) {
+      // Pause at full text
+      timeout = setTimeout(() => setIsDeleting(true), 2800);
+    } else if (isDeleting && displayText === "") {
+      // Advance to next phrase
+      setIsDeleting(false);
+      setPhraseIdx((prev) => (prev + 1) % TYPEWRITER_PHRASES.length);
+      timeout = setTimeout(() => {}, 350);
+    } else {
+      // Type or delete characters
+      const speed = isDeleting ? 25 : 55;
+      timeout = setTimeout(() => {
+        setDisplayText((prev) =>
+          isDeleting
+            ? targetPhrase.substring(0, prev.length - 1)
+            : targetPhrase.substring(0, prev.length + 1)
+        );
+      }, speed);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, phraseIdx]);
+
+  return (
+    <div className="flex items-center gap-2 min-h-[22px]">
+      <span className="w-1 h-3.5 bg-[#E6322A] inline-block rounded-2xs shrink-0" />
+      <span className="text-[9.5px] sm:text-[10px] font-mono-tech tracking-wider text-[#7A7770] uppercase font-semibold truncate">
+        {displayText}
+      </span>
+      <span className="inline-block w-1.5 h-3 bg-[#E6322A] animate-pulse shrink-0" />
+    </div>
+  );
 }
 
 export function GitContributor({ onOpenGitHub }: GitContributorProps) {
@@ -82,8 +132,10 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
 
   return (
     <div className="w-full h-full flex flex-col justify-between select-none">
-      {/* ── Top Bar: Taksh254 on the right top corner ── */}
-      <div className="flex items-center justify-end w-full pb-3 border-b border-[#D8D3C8]/70">
+      {/* ── Top Bar: Animated Typing on Left & Taksh254 on Right ── */}
+      <div className="flex items-center justify-between w-full pb-2.5 border-b border-[#D8D3C8]/70">
+        <TypewriterHeader />
+
         <a
           href="https://github.com/Taksh254"
           target="_blank"
@@ -94,7 +146,7 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
               onOpenGitHub();
             }
           }}
-          className="flex items-center gap-1.5 text-xs font-mono-tech font-semibold text-[#111111] hover:text-[#E6322A] transition-colors group cursor-pointer"
+          className="flex items-center gap-1.5 text-xs font-mono-tech font-semibold text-[#111111] hover:text-[#E6322A] transition-colors group cursor-pointer shrink-0 ml-2"
         >
           <GithubIcon className="w-3.5 h-3.5 text-[#111111] group-hover:text-[#E6322A] transition-colors" />
           <span>Taksh254</span>
@@ -103,7 +155,7 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
       </div>
 
       {/* ── GitHub Calendar Heatmap Matrix (Starting from November) ── */}
-      <div className="my-auto py-3 sm:py-6">
+      <div className="py-2.5">
         {/* Matrix Grid with scroll containment */}
         <div className="overflow-x-auto pb-1 scrollbar-none">
           {/* Month labels banner aligned to week columns */}
@@ -155,44 +207,44 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Heatmap Footer: Hover tooltip & Theme Legend */}
-        <div className="flex items-center justify-between pt-3 mt-3 border-t border-[#E8E4DA] text-[10px] font-mono-tech">
-          <div className="text-[#66635D] truncate max-w-[280px] sm:max-w-[340px]">
-            {hoveredDay ? (
-              <span className="font-semibold text-[#111111]">
-                {hoveredDay.tooltip || `${hoveredDay.date}`}
-              </span>
-            ) : (
-              <span className="text-[#8A867E]">Hover over cells to inspect daily commits</span>
-            )}
-          </div>
+      {/* ── Heatmap Footer: Hover tooltip & Theme Legend ── */}
+      <div className="pt-2.5 border-t border-[#D8D3C8]/70 flex items-center justify-between text-[8.5px] sm:text-[9.5px] font-mono-tech">
+        <div className="text-[#66635D] truncate max-w-[260px] sm:max-w-[340px]">
+          {hoveredDay ? (
+            <span className="font-semibold text-[#111111]">
+              {hoveredDay.tooltip || `${hoveredDay.date}`}
+            </span>
+          ) : (
+            <span className="text-[#8A867E]">Hover over cells to inspect commits</span>
+          )}
+        </div>
 
-          {/* Legend matching theme */}
-          <div className="flex items-center gap-1 text-[#7A7770] text-[9px]">
-            <span>Less</span>
-            <span
-              className="w-2.5 h-2.5 rounded-[1.5px] bg-[#EAE6DC] border border-[#DDD8CD]"
-              title="0 contributions"
-            />
-            <span
-              className="w-2.5 h-2.5 rounded-[1.5px] bg-[#F6CFCB] border border-[#EEA7A1]"
-              title="1-2 contributions"
-            />
-            <span
-              className="w-2.5 h-2.5 rounded-[1.5px] bg-[#E88680] border border-[#DB635B]"
-              title="3-4 contributions"
-            />
-            <span
-              className="w-2.5 h-2.5 rounded-[1.5px] bg-[#DE4138] border border-[#C42B23]"
-              title="5-6 contributions"
-            />
-            <span
-              className="w-2.5 h-2.5 rounded-[1.5px] bg-[#A81812] border border-[#8A0E08]"
-              title="7+ contributions"
-            />
-            <span>More</span>
-          </div>
+        {/* Legend matching theme */}
+        <div className="flex items-center gap-1 text-[#7A7770] text-[9px]">
+          <span>Less</span>
+          <span
+            className="w-2.5 h-2.5 rounded-[1.5px] bg-[#EAE6DC] border border-[#DDD8CD]"
+            title="0 contributions"
+          />
+          <span
+            className="w-2.5 h-2.5 rounded-[1.5px] bg-[#F6CFCB] border border-[#EEA7A1]"
+            title="1-2 contributions"
+          />
+          <span
+            className="w-2.5 h-2.5 rounded-[1.5px] bg-[#E88680] border border-[#DB635B]"
+            title="3-4 contributions"
+          />
+          <span
+            className="w-2.5 h-2.5 rounded-[1.5px] bg-[#DE4138] border border-[#C42B23]"
+            title="5-6 contributions"
+          />
+          <span
+            className="w-2.5 h-2.5 rounded-[1.5px] bg-[#A81812] border border-[#8A0E08]"
+            title="7+ contributions"
+          />
+          <span>More</span>
         </div>
       </div>
     </div>
