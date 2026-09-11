@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taksh Sehrawat — AI Engineer & Developer | TAKSH.OS</title>
+  <meta name="description" content="Personal workspace & portfolio of Taksh Sehrawat, AI Engineer & Developer. Building intelligent systems, autonomous agents, and hardware-accelerated runtimes.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ======================================================================= -->
+  <!-- TOP BAR OS CHROME                                                       -->
+  <!-- ======================================================================= -->
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <div class="brand-logo">TAKSH<span>.OS</span></div>
+      <span class="badge-version">v1.0.0</span>
+      <div class="context-tag">CONTEXT: <strong>PORTFOLIO</strong></div>
+      <div class="pulse-wrapper">
+        <span>SYS_LOAD: 0.18</span>
+        <svg width="28" height="14" viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M0 8H8L11 2L15 14L18 6L21 10H32" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="gps-coords">LAT: 28.61°N LON: 77.20°E</span>
+    </div>
+
+    <div class="top-bar-right">
+      <button class="theme-toggle-btn" id="themeBtn" title="Toggle Theme (Obsidian / Paper)">
+        <span id="themeIcon">☀️</span>
+        <span id="themeText">LIGHT</span>
+      </button>
+
+      <button class="cmd-k-btn" id="cmdBtn" title="Command Palette (Ctrl+K)">
+        <span>⌘</span>
+        <strong>K</strong>
+      </button>
+
+      <div class="status-online">
+        <span class="status-dot"></span>
+        <span>ONLINE</span>
+      </div>
+
+      <div class="live-clock" id="clockDisplay">11:35:50</div>
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- MAIN SCROLLABLE PORTFOLIO CONTAINER                                     -->
+  <!-- ======================================================================= -->
+  <main class="main-wrapper">
+
+    <!-- ===================================================================== -->
+    <!-- SCREEN 01: HERO & IDENTITY + PHYSICAL NOTEBOOK + PROFILE 01           -->
+    <!-- ===================================================================== -->
+    <section id="hero" class="hero-grid">
+      <!-- Left Hero Card -->
+      <div class="panel-card hero-left-content">
+        <div class="hero-text-col">
+          <div class="terminal-badge">
+            <span>&gt;_ INTRODUCTION</span>
+            <span style="color: var(--text-muted);">•</span>
+            <span class="live-badge">
+              <span class="status-dot"></span>
+              BUILDING: Research Agent v2
+            </span>
+          </div>
+
+          <div class="hero-greeting">HELLO, I'M</div>
+          <h1 class="hero-name">Taksh Sehrawat</h1>
+          <div class="hero-role">AI ENGINEER &amp; DEVELOPER</div>
+
+          <p class="hero-desc">
+            I build intelligent systems, automate workflows, and experiment with ideas that push boundaries.
+          </p>
+
+          <div class="focus-tags-wrapper">
+            <div class="focus-tags-label">FOCUS AREAS</div>
+            <div class="focus-pills">
+              <span class="focus-pill active">[ AI SYSTEMS ]</span>
+              <span class="focus-pill">[ AUTOMATION ]</span>
+              <span class="focus-pill">[ SOFTWARE ]</span>
+              <span class="focus-pill">[ RESEARCH ]</span>
+              <span class="focus-pill">[ ROBOTICS ]</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#featured-work" class="btn-primary">
+              <span>EXPLORE MY WORK</span>
+              <span>→</span>
+            </a>
+            <div class="scroll-indicator">
+              <span>SCROLL DOWN</span>
+              <span>↓</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Physical Wirebound Notebook Page -->
+        <div class="physical-notebook">
+          <div class="notebook-rings">
+            <div class="notebook-ring"></div>
+            <div class="notebook-ring"></div>
+            <div class="notebook-ring"></div>
+            <div class="notebook-ring"></div>
+            <div class="notebook-ring"></div>
+            <div class="notebook-ring"></div>
+            <div class="notebook-ring"></div>
+          </div>
+
+          <div class="notebook-tape"></div>
+
+          <div class="notebook-ethos">
+            <div>BUILD.</div>
+            <div>BREAK.</div>
+            <div>UNDERSTAND.</div>
+            <div>REPEAT.</div>
+          </div>
+
+          <div class="notebook-footer">
+            <span>PAGE 01</span>
+            <span>ENGINEERING ETHOS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Engineer Profile Card -->
+      <div class="panel-card profile-card">
+        <div class="profile-card-header">
+          <span>ENGINEER PROFILE</span>
+          <span class="number">01</span>
+        </div>
+
+        <div class="profile-body">
+          <div class="profile-info">
+            <div>
+              <div class="info-label">NAME</div>
+              <div class="info-val name">Taksh Sehrawat</div>
+            </div>
+            <div>
+              <div class="info-label">ROLE</div>
+              <div class="info-val">AI Engineer<br>&amp; Developer</div>
+            </div>
+            <div>
+              <div class="info-label">LOCATION</div>
+              <div class="info-val">India</div>
+            </div>
+            <div>
+              <div class="info-label">STATUS</div>
+              <div class="status-avail">
+                <span class="status-dot"></span>
+                <span>Available for Work</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="avatar-hud-wrapper">
+            <div class="hud-ring-outer"></div>
+            <div class="hud-ring-inner"></div>
+            <div class="hud-avatar">
+              <img src="/taksh-profile.png" alt="Taksh Sehrawat" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80'">
+            </div>
+          </div>
+        </div>
+
+        <a href="#about" class="btn-profile-link">
+          <span>VIEW FULL PROFILE</span>
+          <span>→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SCREEN 02: FEATURED WORK & CASE STUDIES                               -->
+    <!-- ===================================================================== -->
+    <section id="featured-work">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📁</span>
+          <span>02 // FEATURED WORK &amp; CASE STUDIES</span>
+        </div>
+        <a href="#featured-work" class="section-link">
+          <span>VIEW ALL PROJECTS (04)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Large Hero Featured Project (01 Tatvam Chatbot) -->
+      <div class="large-hero-project">
+        <div class="project-preview-frame">
+          <div class="preview-meta">
+            <span>PIPELINE: HYBRID_RAG</span>
+            <span style="color: var(--accent-green);">● LIVE</span>
+          </div>
+          <div class="preview-dag">
+            <div class="dag-node">
+              <span class="dot" style="background: #38BDF8;"></span>
+              <strong>User Query Vectorization</strong>
+            </div>
+            <div class="dag-subnode">BM25 + pgvector Hybrid Semantic Search</div>
+            <div class="dag-subnode" style="color: var(--accent-red);">Claude 3.5 Streaming Multi-Turn Inference</div>
+          </div>
+          <div class="preview-meta" style="border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            <span>RECALL@5: 94.2%</span>
+            <span>TTFT: 180ms</span>
+          </div>
+        </div>
+
+        <div class="project-details-col">
+          <div class="project-category">CONVERSATIONAL AI &amp; EPISODIC MEMORY</div>
+          <h3 class="project-title-large">01 — Tatvam Chatbot</h3>
+          <p class="project-desc">
+            A high-context conversational intelligence engine with sliding-window episodic memory, multi-turn reasoning, and sub-50ms hybrid vector search to eliminate hallucinations in long technical dialogues.
+          </p>
+          <div class="tech-badges-list">
+            <span class="tech-badge">React 19</span>
+            <span class="tech-badge">Next.js</span>
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">FastAPI</span>
+            <span class="tech-badge">Supabase pgvector</span>
+            <span class="tech-badge">Claude API</span>
+          </div>
+          <div class="project-cta-row">
+            <span class="link-case-study">
+              <span>VIEW CASE STUDY</span>
+              <span>→</span>
+            </span>
+            <span style="color: var(--text-muted); font-size: 10px;">YEAR: 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary 3 Projects Row -->
+      <div class="secondary-projects-grid">
+        <!-- 02 Research Agent -->
+        <div class="project-card-small">
+          <div class="card-top-row">
+            <span class="card-number">02</span>
+            <span class="status-pill indev">◐ IN DEV</span>
+          </div>
+
+          <div class="preview-graphic-box">
+            <div style="display: flex; justify-content: space-between;">
+              <span>LANGGRAPH DAG</span>
+              <span style="color: var(--accent-amber);">3.03x SPEED</span>
+            </div>
+            <div style="height: 3px; background: rgba(255, 69, 56, 0.4); border-radius: 2px;"></div>
+            <div style="height: 3px; width: 60%; background: rgba(56, 189, 248, 0.4); border-radius: 2px;"></div>
+            <div style="text-align: right; color: var(--text-muted);">TOPOLOGICAL SORT</div>
+          </div>
+
+          <div>
+            <h4 class="project-title-sm">Research Agent</h4>
+            <p class="project-desc-sm">Self-directed autonomous research system formulating sub-queries, scraping web sources, and compiling structured analytical dossiers.</p>
+          </div>
+
+          <div class="project-cta-row" style="border-top: 1px solid var(--border-subtle); padding-top: 10px;">
+            <span style="color: var(--text-muted); font-size: 10px;">Python · LangGraph</span>
+            <span class="link-case-study" style="font-size: 10px;">CASE STUDY →</span>
+          </div>
+        </div>
+
+        <!-- 03 Attendance System -->
+        <div class="project-card-small">
+          <div class="card-top-row">
+            <span class="card-number">03</span>
+            <span class="status-pill live">● LIVE</span>
+          </div>
+
+          <div class="preview-graphic-box">
+            <div style="display: flex; justify-content: space-between;">
+              <span>ONNX RTSP</span>
+              <span style="color: var(--accent-green);">99.4% ACC</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px 0;">
+              <div style="background: #1C2028; height: 16px; border-radius: 2px;"></div>
+              <div style="background: #1C2028; height: 16px; border-radius: 2px;"></div>
+              <div style="background: rgba(69, 182, 111, 0.3); height: 16px; border-radius: 2px;"></div>
+            </div>
+            <div style="text-align: right; color: var(--text-muted);">EDGE SBC 34ms</div>
+          </div>
+
+          <div>
+            <h4 class="project-title-sm">Attendance System</h4>
+            <p class="project-desc-sm">Zero-friction anti-spoofing facial recognition attendance pipeline with WhatsApp notifications and automated Google Sheets sync.</p>
+          </div>
+
+          <div class="project-cta-row" style="border-top: 1px solid var(--border-subtle); padding-top: 10px;">
+            <span style="color: var(--text-muted); font-size: 10px;">OpenCV · ONNX</span>
+            <span class="link-case-study" style="font-size: 10px;">CASE STUDY →</span>
+          </div>
+        </div>
+
+        <!-- 04 Google Automation -->
+        <div class="project-card-small">
+          <div class="card-top-row">
+            <span class="card-number">04</span>
+            <span class="status-pill indev">◐ IN DEV</span>
+          </div>
+
+          <div class="preview-graphic-box">
+            <div style="display: flex; justify-content: space-between;">
+              <span>OCR RECONCILIATION</span>
+              <span style="color: var(--accent-amber);">95% SAVED</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary); padding: 6px 0;">
+              GMAIL ──(OCR)──> SHEETS
+            </div>
+            <div style="text-align: right; color: var(--text-muted);">AUTO-DIGEST PDF</div>
+          </div>
+
+          <div>
+            <h4 class="project-title-sm">Google Automation</h4>
+            <p class="project-desc-sm">End-to-end multi-platform serverless automation for invoice OCR parsing, expense reconciliation, and executive monthly digests.</p>
+          </div>
+
+          <div class="project-cta-row" style="border-top: 1px solid var(--border-subtle); padding-top: 10px;">
+            <span style="color: var(--text-muted); font-size: 10px;">TypeScript · AppsScript</span>
+            <span class="link-case-study" style="font-size: 10px;">CASE STUDY →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SCREEN 03: ABOUT THE ENGINEER + CURRENTLY / 2026                      -->
+    <!-- ===================================================================== -->
+    <section id="about" class="two-col-grid">
+      <!-- About Card -->
+      <div class="panel-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="section-title" style="color: var(--accent-red); margin-bottom: 12px; font-size: 11px;">
+            03 // ABOUT THE ENGINEER
+          </div>
+          <h2 class="editorial-quote-title">
+            I like understanding systems from the inside out.
+          </h2>
+          <p class="hero-desc" style="max-width: 100%;">
+            I build software, experiment with AI, automate repetitive workflows, and explore how intelligent systems can interact with the real world.
+          </p>
+          <p class="hero-desc" style="max-width: 100%;">
+            Rather than treating deep learning models as abstract black boxes, I focus on tensor execution graphs, memory bandwidth limits, caching layers, and real-world system reliability.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border-top: 1px solid var(--border-subtle); padding-top: 16px; font-family: var(--font-mono); font-size: 11px;">
+          <div>
+            <div style="font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">CORE FOCUS</div>
+            <div style="color: var(--text-primary); font-weight: 600; margin-top: 4px;">AI Systems · Automation · Software · Robotics</div>
+          </div>
+          <div>
+            <div style="font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">APPROACH</div>
+            <div style="color: var(--accent-red); font-weight: 700; margin-top: 4px;">Build → Test → Break → Understand → Iterate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Currently / 2026 Active Note -->
+      <div class="panel-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 11px;">
+            <span style="font-weight: 700; color: #FFFFFF;">⚡ CURRENTLY / 2026</span>
+            <span class="status-dot"></span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="currently-item">
+              <span class="currently-label" style="color: var(--accent-red);">[ BUILDING ]</span>
+              <strong style="color: var(--text-primary); font-size: 12px;">Research Agent v2</strong>
+              <span style="color: var(--text-secondary); font-size: 10px;">Hierarchical multi-agent DAG task decomposition.</span>
+            </div>
+
+            <div class="currently-item">
+              <span class="currently-label" style="color: var(--accent-green);">[ LEARNING ]</span>
+              <strong style="color: var(--text-primary); font-size: 12px;">Transformers &amp; Diffusion Models</strong>
+              <span style="color: var(--text-secondary); font-size: 10px;">KV cache memory bandwidth &amp; FlashAttention kernels.</span>
+            </div>
+
+            <div class="currently-item">
+              <span class="currently-label" style="color: var(--accent-amber);">[ EXPLORING ]</span>
+              <strong style="color: var(--text-primary); font-size: 12px;">Multi-Agent Systems &amp; SLAM</strong>
+              <span style="color: var(--text-secondary); font-size: 10px;">Distributed task graphs and lidar loop closure.</span>
+            </div>
+
+            <div class="currently-item">
+              <span class="currently-label" style="color: #38BDF8;">[ READING ]</span>
+              <strong style="color: var(--text-primary); font-size: 12px;">The Pragmatic Programmer</strong>
+              <span style="color: var(--text-secondary); font-size: 10px;">Architectural software craftsmanship principles.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SCREEN 04: EXPERIMENT LAB TIMELINE                                    -->
+    <!-- ===================================================================== -->
+    <section id="lab">
+      <div class="section-header">
+        <div class="section-title">
+          <span>⚗️</span>
+          <span>04 // EXPERIMENT LOG &amp; EMPIRICAL TRIALS</span>
+        </div>
+        <a href="#lab" class="section-link">
+          <span>VIEW FULL LAB ARCHIVE (06)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="experiments-timeline">
+        <!-- Exp 021 -->
+        <div class="experiment-row">
+          <div class="exp-left">
+            <span class="exp-num">#021</span>
+            <div>
+              <div class="exp-title">AUTONOMOUS AGENT CONCURRENT DAG EXECUTION</div>
+              <div class="exp-hypo">Parallel topological sort scheduler reducing latency by 67% over sequential chains.</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="status-badge in_progress">IN PROGRESS ◐</span>
+            <span style="color: var(--text-muted);">→</span>
+          </div>
+        </div>
+
+        <!-- Exp 020 -->
+        <div class="experiment-row">
+          <div class="exp-left">
+            <span class="exp-num">#020</span>
+            <div>
+              <div class="exp-title">REAL-TIME SPEECH-TO-SPEECH ZERO-LATENCY BUFFERING</div>
+              <div class="exp-hypo">Sub-100ms bidirectional chunking streaming audio without socket race conditions.</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="status-badge completed">COMPLETED ●</span>
+            <span style="color: var(--text-muted);">→</span>
+          </div>
+        </div>
+
+        <!-- Exp 019 -->
+        <div class="experiment-row">
+          <div class="exp-left">
+            <span class="exp-num">#019</span>
+            <div>
+              <div class="exp-title">GENERATIVE RECURSIVE UI TREE SYNTHESIS</div>
+              <div class="exp-hypo">Autonomous AST component generation resulted in cascading render loops (Documented Lesson).</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="status-badge failed">FAILED (LEARNED) ✕</span>
+            <span style="color: var(--text-muted);">→</span>
+          </div>
+        </div>
+
+        <!-- Exp 018 -->
+        <div class="experiment-row">
+          <div class="exp-left">
+            <span class="exp-num">#018</span>
+            <div>
+              <div class="exp-title">EDGE INT8 QUANTIZED ONNX PIPELINE ON 7.5W SBC</div>
+              <div class="exp-hypo">Running 30 FPS facial anti-spoofing with NEON SIMD acceleration on low-power ARM chip.</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="status-badge in_progress">IN PROGRESS ◐</span>
+            <span style="color: var(--text-muted);">→</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SCREEN 05: ENGINEERING NOTES                                          -->
+    <!-- ===================================================================== -->
+    <section id="notes">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📖</span>
+          <span>05 // ENGINEERING NOTES &amp; PAPERS</span>
+        </div>
+        <a href="#notes" class="section-link">
+          <span>TABLE OF CONTENTS (04)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="notes-grid">
+        <!-- Note 01 -->
+        <div class="note-card">
+          <div class="note-top">
+            <span style="color: var(--accent-red); font-weight: 700;">01 // NEURAL ARCHITECTURE</span>
+            <span style="color: var(--text-muted);">7 min read</span>
+          </div>
+          <h4 class="note-title">Understanding Attention &amp; KV Caching Mechanics</h4>
+          <p class="hero-desc" style="font-size: 12px; margin-bottom: 0;">Why transformer inference shifts from compute-bound prefill to memory-bandwidth-bound token generation.</p>
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            <span>DATE: 08.31.26</span>
+            <span style="color: var(--accent-red); font-weight: 700;">READ ESSAY →</span>
+          </div>
+        </div>
+
+        <!-- Note 02 -->
+        <div class="note-card">
+          <div class="note-top">
+            <span style="color: var(--accent-red); font-weight: 700;">02 // INFORMATION RETRIEVAL</span>
+            <span style="color: var(--text-muted);">6 min read</span>
+          </div>
+          <h4 class="note-title">How Embeddings &amp; Vector Indexing Actually Work</h4>
+          <p class="hero-desc" style="font-size: 12px; margin-bottom: 0;">HNSW graphs, cosine similarity geometric bounds, and quantized vector distance indexing.</p>
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            <span>DATE: 08.28.26</span>
+            <span style="color: var(--accent-red); font-weight: 700;">READ ESSAY →</span>
+          </div>
+        </div>
+
+        <!-- Note 03 -->
+        <div class="note-card">
+          <div class="note-top">
+            <span style="color: var(--accent-red); font-weight: 700;">03 // SYSTEMS ARCHITECTURE</span>
+            <span style="color: var(--text-muted);">8 min read</span>
+          </div>
+          <h4 class="note-title">Building Autonomous Multi-Agent DAGs</h4>
+          <p class="hero-desc" style="font-size: 12px; margin-bottom: 0;">Directed acyclic execution paths, conflict resolution memory blackboards, and automated critique loops.</p>
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            <span>DATE: 08.25.26</span>
+            <span style="color: var(--accent-red); font-weight: 700;">READ ESSAY →</span>
+          </div>
+        </div>
+
+        <!-- Note 04 -->
+        <div class="note-card">
+          <div class="note-top">
+            <span style="color: var(--accent-red); font-weight: 700;">04 // CORE MACHINE LEARNING</span>
+            <span style="color: var(--text-muted);">10 min read</span>
+          </div>
+          <h4 class="note-title">Backpropagation &amp; Tensor Gradient Computation</h4>
+          <p class="hero-desc" style="font-size: 12px; margin-bottom: 0;">Reverse-mode automatic differentiation, Jacobian matrices, and computational memory graphs.</p>
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            <span>DATE: 08.21.26</span>
+            <span style="color: var(--accent-red); font-weight: 700;">READ ESSAY →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SCREEN 06: CONTACT & START A CONVERSATION + SYSTEM LOG                -->
+    <!-- ===================================================================== -->
+    <section id="contact" class="two-col-grid">
+      <!-- Direct Transmission Terminal -->
+      <div class="panel-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 11px;">
+            <span style="font-weight: 700; color: #FFFFFF;">06 // START A CONVERSATION</span>
+            <span style="color: var(--accent-green);">STATUS: READY</span>
+          </div>
+
+          <p class="hero-desc" style="font-size: 12px; margin-bottom: 14px;">
+            Have an idea worth building or want to discuss neural network architectures and autonomous pipelines? Transmit a packet directly to my inbox.
+          </p>
+
+          <form id="contactForm" onsubmit="handleTransmit(event)">
+            <div class="input-row">
+              <input type="text" id="senderName" class="form-control" placeholder="Your Name" required>
+              <input type="email" id="senderEmail" class="form-control" placeholder="Your Email" required>
+            </div>
+            <textarea id="senderMsg" class="form-control" rows="3" placeholder="State project parameters, problem statement, or collaboration query..." required></textarea>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">DIRECT: taksh.sehrawat.dev@gmail.com</span>
+              <button type="submit" class="btn-primary" id="submitBtn">
+                <span>[ SEND TRANSMISSION → ]</span>
+              </button>
+            </div>
+          </form>
+
+          <div id="receiptBox" style="display: none; padding: 14px; background: #0A0C0F; border: 1px solid var(--accent-green); border-radius: 8px; font-family: var(--font-mono); font-size: 11px; text-align: center; margin-top: 10px;">
+            <div style="color: var(--accent-green); font-weight: 700;">TRANSMISSION DISPATCHED ✓</div>
+            <div style="color: var(--text-secondary); margin-top: 4px;">Packet Receipt: <strong id="receiptId" style="color: #FFFFFF;"></strong></div>
+          </div>
+        </div>
+
+        <div class="social-pill-grid">
+          <a href="https://github.com/Taksh254" target="_blank" class="social-pill">
+            <span>GITHUB</span>
+          </a>
+          <a href="https://www.linkedin.com/in/taksh-sehrawat-6356bb2b9/" target="_blank" class="social-pill">
+            <span>LINKEDIN</span>
+          </a>
+          <a href="https://x.com/TSehrawat49611" target="_blank" class="social-pill">
+            <span>𝕏 TWITTER</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- System Log & Vintage Parchment Card -->
+      <div style="display: flex; flex-direction: column; gap: 16px; justify-content: space-between;">
+        <!-- Compact System Log -->
+        <div class="panel-card" style="padding: 18px; font-family: var(--font-mono); font-size: 11px;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; margin-bottom: 10px;">
+            <strong style="color: #FFFFFF;">● SYSTEM LOG</strong>
+            <span style="color: var(--accent-green);">REALTIME</span>
+          </div>
+          <div style="background: var(--bg-card-inner); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 10px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; justify-content: space-between;"><span>11:35:12 SYSTEM BOOT</span><span style="color: var(--accent-green);">[ OK ]</span></div>
+            <div style="display: flex; justify-content: space-between;"><span>11:35:14 WORKSPACE INIT</span><span style="color: var(--accent-green);">[ OK ]</span></div>
+            <div style="display: flex; justify-content: space-between;"><span>11:35:16 PROJECTS LOADED</span><span style="color: var(--accent-green);">[ 08 ]</span></div>
+            <div style="display: flex; justify-content: space-between;"><span>11:35:18 LAB INDEXED</span><span style="color: var(--accent-green);">[ 14 ]</span></div>
+            <div style="display: flex; justify-content: space-between;"><span>11:35:20 NOTES INDEXED</span><span style="color: var(--accent-green);">[ 27 ]</span></div>
+            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--accent-green);"><span>11:35:22 SYSTEM READY</span><span>[ ✓ ]</span></div>
+          </div>
+        </div>
+
+        <!-- Vintage Parchment Alan Kay Quote Card -->
+        <div class="parchment-card">
+          <div class="notebook-tape" style="top: 8px; right: 12px; left: auto; transform: rotate(10deg); width: 50px;"></div>
+          <div class="parchment-quote">
+            <span class="red">“</span> The best way to predict the future is to build it. <span class="red">”</span>
+          </div>
+          <div class="parchment-author">— Alan Kay</div>
+          <svg class="parchment-compass" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+            <circle cx="50" cy="50" r="40" stroke-width="1" stroke-dasharray="3 3" />
+            <line x1="10" y1="50" x2="90" y2="50" stroke-width="1" />
+            <line x1="50" y1="10" x2="50" y2="90" stroke-width="1" />
+            <circle cx="50" cy="50" r="20" stroke-width="1" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Minimal Footer -->
+    <footer class="site-footer">
+      <div><strong>TAKSH.OS</strong> © 2026 Taksh Sehrawat</div>
+      <div style="font-family: var(--font-serif); font-style: italic; color: var(--text-secondary);">Build. Break. Understand. Repeat.</div>
+      <div style="color: var(--accent-green); display: flex; align-items: center; gap: 6px;">
+        <span class="status-dot"></span>
+        <span>SYSTEM STATUS: NOMINAL</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- PRIORITY 1: FLOATING BOTTOM ISLAND NAVIGATION (NON-BLOCKING)            -->
+  <!-- ======================================================================= -->
+  <div class="island-dock-container">
+    <nav class="island-dock">
+      <button class="dock-item home-pill" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Home / Top">
+        &gt;_
+      </button>
+      <a href="#featured-work" class="dock-item">
+        <span>📁</span>
+        <span class="label">WORK</span>
+      </a>
+      <a href="#lab" class="dock-item">
+        <span>⚗️</span>
+        <span class="label">LAB</span>
+      </a>
+      <a href="#notes" class="dock-item">
+        <span>📖</span>
+        <span class="label">NOTES</span>
+      </a>
+      <a href="#about" class="dock-item">
+        <span>👤</span>
+        <span class="label">ABOUT</span>
+      </a>
+      <a href="#contact" class="dock-item">
+        <span>✈️</span>
+        <span class="label">CONTACT</span>
+      </a>
+      <div class="dock-divider"></div>
+      <button class="dock-item" onclick="triggerCommandPalette()" title="Command Palette (⌘K)">
+        <span>⌘</span>
+        <span class="label">K</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Live Ticking Clock
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('clockDisplay').textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Theme Switcher
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    let currentTheme = localStorage.getItem('taksh_os_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeUI(currentTheme);
+
+    themeBtn.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'paper' : 'dark';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('taksh_os_theme', currentTheme);
+      updateThemeUI(currentTheme);
+    });
+
+    function updateThemeUI(t) {
+      if (t === 'paper') {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'DARK';
+      } else {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'LIGHT';
+      }
+    }
+
+    // Direct Transmission Terminal handler
+    function handleTransmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'TRANSMITTING...';
+      btn.disabled = true;
+      setTimeout(() => {
+        const pkt = '#PKT-' + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('receiptId').textContent = pkt;
+        document.getElementById('receiptBox').style.display = 'block';
+        document.getElementById('contactForm').reset();
+        btn.textContent = '[ SEND TRANSMISSION → ]';
+        btn.disabled = false;
+      }, 500);
+    }
+
+    function triggerCommandPalette() {
+      alert("TAKSH.OS Command Palette activated. Use sections to navigate or switch themes.");
+    }
+  </script>
+</body>
+</html>
