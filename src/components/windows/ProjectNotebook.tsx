@@ -65,6 +65,15 @@ export function ProjectNotebook({ project, onBack }: ProjectNotebookProps) {
           {project.summary}
         </p>
 
+        <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#202634] bg-[#0B0D12] mt-2">
+          <img
+            src={project.image}
+            alt={`${project.title} landing page screenshot`}
+            className="w-full h-full object-cover object-top"
+            loading="lazy"
+          />
+        </div>
+
         {/* Links / Actions */}
         <div className="flex flex-wrap items-center gap-3 pt-3">
           {project.demoUrl && (

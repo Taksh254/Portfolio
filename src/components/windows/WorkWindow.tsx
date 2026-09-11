@@ -90,15 +90,27 @@ export function WorkWindow({
             key={project.id}
             onClick={() => setSelected(project.id)}
             data-cursor="OPEN NOTEBOOK"
-            className="bg-[#12151D] border border-[#202634] hover:border-[#E5484D]/60 hover:bg-[#151924] rounded-xl p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between space-y-4 group shadow-sm hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5"
+            className="bg-[#12151D] border border-[#202634] hover:border-[#E5484D]/60 hover:bg-[#151924] rounded-xl overflow-hidden transition-all duration-200 cursor-pointer flex flex-col justify-between group shadow-sm hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5"
           >
+            {/* Landing Page Screenshot */}
+            <div className="relative w-full aspect-video bg-[#0B0D12] overflow-hidden border-b border-[#202634]">
+              <img
+                src={project.image}
+                alt={`${project.title} landing page screenshot`}
+                className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/70 to-transparent" />
+              <span className="absolute top-2 right-2 text-[10px]">{getStatusIndicator(project.status)}</span>
+            </div>
+
+            <div className="p-5 flex flex-col justify-between space-y-4 flex-1">
             {/* Top metadata */}
             <div className="space-y-2">
               <div className="flex items-center justify-between font-mono-tech text-xs">
                 <span className="text-[#5D6475] font-bold group-hover:text-[#E5484D] transition-colors">
                   INDEX #{project.number}
                 </span>
-                <span className="text-[10px]">{getStatusIndicator(project.status)}</span>
               </div>
 
               <div className="flex items-start justify-between gap-2">
@@ -151,6 +163,7 @@ export function WorkWindow({
               <span className="text-[#8E95A5] group-hover:text-[#E5484D] text-[11px] font-semibold flex items-center gap-1">
                 Notebook →
               </span>
+            </div>
             </div>
           </div>
         ))}

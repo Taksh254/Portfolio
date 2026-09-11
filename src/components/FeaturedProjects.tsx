@@ -10,11 +10,12 @@ import {
   Zap,
 } from "lucide-react";
 import { TypewriterHeader } from "./TypewriterHeader";
+import { PROJECTS } from "@/data/projects";
 
 const PROJECTS_PHRASES = [
   "// 03  FEATURED PROJECTS // BUILDS",
   "// ARCHITECTURE: FULL-STACK AI",
-  "// 🏆 1ST PLACE & TOP FINALIST BUILDS",
+  "// SHIPPED FROM GITHUB.COM/TAKSH254",
   "// HIGH-VELOCITY SHIP CADENCE",
 ];
 
@@ -41,98 +42,50 @@ export interface FeaturedProjectBuild {
   link: string;
 }
 
-const FEATURED_PROJECTS: FeaturedProjectBuild[] = [
-  {
-    id: "automesh",
-    name: "AutoMesh — Multi-Agent Research Engine",
-    shortTitle: "AutoMesh",
-    event: "Autonomous Systems & National AI",
-    award: "🏆 1ST PLACE WINNER",
-    badgeStyle: "text-amber-800 bg-amber-500/10 border-amber-600/30",
-    time: "36H SPRINT",
-    year: "2025",
-    image: "/hackathons/hack_1.jpg",
-    rotation: -8,
-    offsetY: 4,
-    summary:
-      "Distributed multi-agent pipeline that autonomously parses academic literature into structured knowledge graphs with source grounding and citation trees.",
-    tags: ["LangGraph", "FastAPI", "pgvector", "Claude 3.5"],
-    metrics: "Top 1% of 1,200+ Teams",
-    link: "https://github.com/Taksh254",
-  },
-  {
-    id: "edgevision",
-    name: "EdgeVision — Real-Time Anti-Spoofing",
-    shortTitle: "EdgeVision",
-    event: "Edge AI & Vision Biometrics",
-    award: "⚡ TOP 3 FINALIST",
-    badgeStyle: "text-emerald-800 bg-emerald-500/10 border-emerald-600/30",
-    time: "24H SPRINT",
-    year: "2025",
-    image: "/hackathons/hack_2.jpg",
-    rotation: -4,
-    offsetY: 1,
-    summary:
-      "Sub-50ms biometric facial verification running on ARM64 Raspberry Pi with IR texture liveness detection and anti-spoofing defense.",
-    tags: ["OpenCV", "PyTorch Mobile", "C++20", "ONNX"],
-    metrics: "99.2% Anti-Spoof Precision",
-    link: "https://github.com/Taksh254",
-  },
-  {
-    id: "dag-ledger",
-    name: "DAG-Ledger — High-Throughput State Sync",
-    shortTitle: "DAG-Ledger",
-    event: "Web3 Infra & Consensus Architecture",
-    award: "🌟 BEST ARCHITECTURE",
-    badgeStyle: "text-blue-800 bg-blue-500/10 border-blue-600/30",
-    time: "48H SPRINT",
-    year: "2024",
-    image: "/hackathons/hack_3.jpg",
-    rotation: 0,
-    offsetY: 0,
-    summary:
-      "Zero-copy consensus ledger leveraging Directed Acyclic Graph mempool pipelining and lock-free memory ring buffers.",
-    tags: ["Rust", "Tokio", "DAG", "gRPC"],
-    metrics: "42,000 tx/sec Throughput",
-    link: "https://github.com/Taksh254",
-  },
-  {
-    id: "neurovoice",
-    name: "NeuroVoice — Streaming Speech Synthesis",
-    shortTitle: "NeuroVoice",
-    event: "Realtime Multimodal AI Challenge",
-    award: "🥇 1ST PLACE INNOVATION",
-    badgeStyle: "text-purple-800 bg-purple-500/10 border-purple-600/30",
-    time: "36H SPRINT",
-    year: "2024",
-    image: "/hackathons/hack_4.jpg",
-    rotation: 4,
-    offsetY: 1,
-    summary:
-      "Ultra-low-latency conversational speech engine featuring end-to-end neural acoustic synthesis, emotional prosody, and chunked streaming.",
-    tags: ["Whisper", "WebRTC", "PyTorch", "Rust"],
-    metrics: "<120ms Ear-to-Glass Latency",
-    link: "https://github.com/Taksh254",
-  },
-  {
-    id: "visiondrone",
-    name: "VisionDrone — Autonomous Spatial SLAM",
-    shortTitle: "VisionDrone",
-    event: "Aerial Robotics & Drone Perception",
-    award: "🎯 RUNNER UP / IMPACT",
-    badgeStyle: "text-teal-800 bg-teal-500/10 border-teal-600/30",
-    time: "48H SPRINT",
-    year: "2024",
-    image: "/hackathons/hack_5.jpg",
-    rotation: 8,
-    offsetY: 4,
-    summary:
-      "Stereo-vision depth SLAM and real-time obstacle avoidance pipeline deployed on lightweight quadcopter companion compute boards.",
-    tags: ["ROS2", "YOLOv10", "DepthAI", "C++"],
-    metrics: "60 FPS Onboard SLAM",
-    link: "https://github.com/Taksh254",
-  },
+const STATUS_BADGE: Record<string, { label: string; style: string }> = {
+  live: { label: "● LIVE DEPLOYMENT", style: "text-emerald-800 bg-emerald-500/10 border-emerald-600/30" },
+  building: { label: "◐ ACTIVE DEVELOPMENT", style: "text-amber-800 bg-amber-500/10 border-amber-600/30" },
+  operational: { label: "● OPERATIONAL", style: "text-emerald-800 bg-emerald-500/10 border-emerald-600/30" },
+  archived: { label: "○ ARCHIVED", style: "text-slate-700 bg-slate-500/10 border-slate-500/30" },
+};
+
+const FAN_LAYOUT = [
+  { rotation: -8, offsetY: 4 },
+  { rotation: -4, offsetY: 1 },
+  { rotation: 0, offsetY: 0 },
+  { rotation: 4, offsetY: 1 },
+  { rotation: 8, offsetY: 4 },
 ];
+
+const SHORT_TITLES: Record<string, string> = {
+  "finova": "Finova",
+  "oryn": "Oryn",
+  "tiny-mind-play-school": "Tiny Mind",
+  "edith-ai": "EDITH AI",
+  "beejmantra": "BeejMantra",
+};
+
+const FEATURED_PROJECTS: FeaturedProjectBuild[] = PROJECTS.map((project, idx) => {
+  const badge = STATUS_BADGE[project.status] ?? STATUS_BADGE.building;
+  const layout = FAN_LAYOUT[idx % FAN_LAYOUT.length];
+  return {
+    id: project.id,
+    name: project.title,
+    shortTitle: SHORT_TITLES[project.id] ?? project.title,
+    event: project.category,
+    award: badge.label,
+    badgeStyle: badge.style,
+    time: project.year,
+    year: project.year,
+    image: project.image,
+    rotation: layout.rotation,
+    offsetY: layout.offsetY,
+    summary: project.summary,
+    tags: project.stack.slice(0, 4),
+    metrics: project.metrics?.[0]?.value ?? project.category,
+    link: project.demoUrl || project.githubUrl || "https://github.com/Taksh254",
+  };
+});
 
 export function FeaturedProjects({
   onSelectProject,
@@ -163,7 +116,7 @@ export function FeaturedProjects({
           <div className="flex items-center gap-2 shrink-0">
             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#E6322A]/8 border border-[#E6322A]/25 text-[#E6322A] text-[9px] font-bold tracking-wider shrink-0 whitespace-nowrap">
               <FolderGit2 className="w-3 h-3 text-[#E6322A] shrink-0" />
-              <span>5 FEATURED BUILDS</span>
+              <span>{FEATURED_PROJECTS.length} FEATURED BUILDS</span>
             </div>
 
             <button
@@ -186,7 +139,7 @@ export function FeaturedProjects({
               <span>PROJECT GALLERY // HOVER TO EXPAND</span>
             </span>
             <span className="font-mono-tech">
-              [{activeIdx + 1}/5] {activeProject.time}
+              [{activeIdx + 1}/{FEATURED_PROJECTS.length}] {activeProject.time}
             </span>
           </div>
 

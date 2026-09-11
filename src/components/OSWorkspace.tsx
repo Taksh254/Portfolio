@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { OSTopBar } from "./OSTopBar";
 import { HeroSection } from "./HeroSection";
 import { FeaturedProjects } from "./FeaturedProjects";
-import { EngineersDiary } from "./EngineersDiary";
+import { HackathonsSection } from "./HackathonsSection";
 import { LabExperiments } from "./LabExperiments";
 import { SystemsSkills } from "./SystemsSkills";
 import { GitContributor } from "./GitContributor";
@@ -109,11 +109,11 @@ export function OSWorkspace() {
       />
 
       {/* ── Atmospheric 4K Oak Tree Artwork Layer (Fixed Left Flank) ── */}
-      <div className="hidden lg:block fixed left-0 top-0 h-screen w-auto pointer-events-none select-none z-0 overflow-visible">
+      <div className="hidden lg:block fixed -left-8 -top-3 h-[105vh] w-auto pointer-events-none select-none z-0 overflow-visible">
         <img
           src="/tree-4k-whole.png"
           alt="4K Ancient Oak Tree Backdrop"
-          className="h-full w-auto max-w-none object-contain object-left-top mix-blend-multiply opacity-95 tree-branches-breeze"
+          className="h-full w-auto max-w-none object-contain object-left-top mix-blend-multiply opacity-95 tree-branches-breeze scale-[1.03] origin-left"
         />
       </div>
 
@@ -144,18 +144,12 @@ export function OSWorkspace() {
             />
           </div>
 
-          {/* Engineer's Diary */}
+          {/* Hackathons */}
           <div
             id="notes"
             className="lg:col-span-5 apple-glass-section p-4 sm:p-5 md:p-6 overflow-visible relative flex flex-col justify-between"
           >
-            <EngineersDiary
-              onSelectEntry={(id) => {
-                setSelectedNoteId(id);
-                setActiveWindow("notes");
-              }}
-              onViewAll={() => setActiveWindow("notes")}
-            />
+            <HackathonsSection />
           </div>
         </div>
 
