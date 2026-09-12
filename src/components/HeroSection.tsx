@@ -46,25 +46,7 @@ export function HeroSection({
               </h1>
             </div>
 
-            {/* Technical Compass Rose placed in the gap beside headline */}
-            <div className="hidden sm:flex flex-col items-center absolute right-0 top-1 select-none pointer-events-none">
 
-              {/* Technical Compass Rose with Coordinates */}
-              <div className="flex flex-col items-center gap-0.5 opacity-75 font-mono-tech text-[7.5px] text-[#555047]">
-                <svg width="36" height="36" viewBox="0 0 60 60" fill="none" stroke="#66635D" strokeWidth="0.8">
-                  <circle cx="30" cy="30" r="26" strokeDasharray="3 3" />
-                  <circle cx="30" cy="30" r="16" strokeDasharray="2 2" stroke="#8C8476" />
-                  <circle cx="30" cy="30" r="4" stroke="#E6322A" fill="#E6322A" fillOpacity="0.2" />
-                  <line x1="30" y1="2" x2="30" y2="58" strokeDasharray="2 2" />
-                  <line x1="2" y1="30" x2="58" y2="30" strokeDasharray="2 2" />
-                  <polygon points="30,4 32,10 28,10" fill="#66635D" />
-                </svg>
-                <div className="text-center leading-tight tracking-wider font-semibold mt-0.5">
-                  <div>28.6139° N</div>
-                  <div>77.2090° E</div>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Subtitle */}
@@ -106,7 +88,7 @@ export function HeroSection({
         </div>
 
         {/* ── Right 3 Columns: Currently Panel & Glass Music Player ── */}
-        <div className="lg:col-span-3 flex flex-col items-center lg:items-end gap-3">
+        <div className="lg:col-span-3 min-w-0 w-full flex flex-col items-center lg:items-end gap-3 pt-3 lg:pt-4">
           <CurrentlyCard />
           <GlassMusicPlayer />
         </div>

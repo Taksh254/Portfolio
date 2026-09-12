@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Send, Check, Copy, Mail, Radio } from "lucide-react";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/Icons";
 import { LinkSubWindow, LinkTarget } from "./LinkSubWindow";
+import { CONTACT_EMAIL, gmailComposeUrl } from "@/data/profile";
 
 interface ContactWindowProps {
   onOpenSubWindow?: (target: LinkTarget) => void;
@@ -207,9 +208,14 @@ export function ContactWindow({ onOpenSubWindow }: ContactWindowProps) {
             </div>
 
             <div className="flex items-center justify-between pt-1">
-              <div className="text-[10px] text-[#5D6475]">
-                DIRECT TO: taksh.sehrawat.dev@gmail.com
-              </div>
+              <a
+                href={gmailComposeUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[10px] text-[#5D6475] hover:text-[#E5484D] transition-colors"
+              >
+                DIRECT TO: {CONTACT_EMAIL}
+              </a>
 
               <button
                 type="submit"

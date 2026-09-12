@@ -103,21 +103,21 @@ export function LabWindow({ selectedExpId, onSelectExp }: LabWindowProps) {
         </div>
       </div>
 
-      {/* Filter Tabs */}
+      {/* Filter Tabs — colored per-status to match the badges below and the detail page */}
       <div className="flex items-center gap-2 font-mono-tech text-xs">
         {[
-          { id: "all", label: "All Logs" },
-          { id: "completed", label: "Completed" },
-          { id: "in_progress", label: "In Progress" },
-          { id: "failed", label: "Failed (Learned)" },
+          { id: "all", label: "All Logs", activeStyle: "bg-[#E5484D] text-white border-[#E5484D]" },
+          { id: "completed", label: "Completed", activeStyle: "bg-[#16261E] text-[#30A46C] border-[#224431]" },
+          { id: "in_progress", label: "In Progress", activeStyle: "bg-[#262115] text-[#E5A024] border-[#44381C]" },
+          { id: "failed", label: "Failed (Learned)", activeStyle: "bg-[#2D1619] text-[#E5484D] border-[#4A1D23]" },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setFilterStatus(tab.id)}
-            className={`px-3 py-1 rounded-lg border transition-colors cursor-pointer text-xs ${
+            className={`px-3 py-1 rounded-lg border transition-colors cursor-pointer text-xs font-semibold ${
               filterStatus === tab.id
-                ? "bg-[#E5484D] text-white border-[#E5484D]"
-                : "bg-[#161B26] text-[#8E95A5] border-[#252C3D] hover:text-[#EDEDED]"
+                ? tab.activeStyle
+                : "bg-[#161B26] text-[#8E95A5] border-[#252C3D] hover:text-[#EDEDED] font-normal"
             }`}
           >
             {tab.label}

@@ -18,6 +18,7 @@ import {
   Search,
 } from "lucide-react";
 import { LinkedinIcon } from "@/components/Icons";
+import { gmailComposeUrl } from "@/data/profile";
 import { PROJECTS } from "@/data/projects";
 
 export function LinkedInInAppBrowser() {
@@ -116,7 +117,9 @@ export function LinkedInInAppBrowser() {
                   </button>
 
                   <a
-                    href="mailto:taksh.sehrawat.dev@gmail.com"
+                    href={gmailComposeUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="px-4 py-1.5 rounded-full text-xs font-semibold text-[#0a66c2] border border-[#0a66c2] hover:bg-[#EBF4FD] transition-colors flex items-center gap-1.5"
                   >
                     <MessageSquare className="w-3.5 h-3.5" />

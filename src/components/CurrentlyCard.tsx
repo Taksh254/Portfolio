@@ -36,9 +36,9 @@ export function CurrentlyCard() {
   ];
 
   return (
-    <div className="flex items-start select-none relative w-full max-w-[285px]">
+    <div className="flex items-start select-none relative w-full min-w-0 max-w-[285px]">
       {/* Main Card Column */}
-      <div className="flex-1 space-y-2">
+      <div className="flex-1 min-w-0 space-y-2">
         {/* // 02 CURRENTLY Card */}
         <div className="relative p-3 sm:p-3.5 rounded-xl apple-glass-card shadow-sm">
           {/* Silver Paperclip at Top-Right */}

@@ -18,34 +18,27 @@ interface Track {
   isExplicit?: boolean;
   coverUrl: string;
   duration: number; // in seconds
-  audioSrc?: string;
+  audioSrc: string;
 }
 
 const PLAYLIST: Track[] = [
   {
-    id: "loser-dino-james",
+    id: "loser-tame-impala",
     title: "Loser",
-    artist: "Dino James",
-    isExplicit: true,
-    coverUrl: "/album-loser.jpg",
-    duration: 264, // 4:24
-    audioSrc: "/loser.mp3",
+    artist: "Tame Impala",
+    isExplicit: false,
+    coverUrl: "/album-loser-tame-impala.jpg",
+    duration: 223,
+    audioSrc: "/loser-tame-impala.m4a",
   },
   {
-    id: "loser-beck",
-    title: "Loser",
-    artist: "Beck",
+    id: "oh-yeah-steve-lacy",
+    title: "oh yeah?",
+    artist: "Steve Lacy",
     isExplicit: true,
-    coverUrl: "/album-loser.jpg",
-    duration: 235, // 3:55
-  },
-  {
-    id: "world-of-flowers",
-    title: "The World of Flowers",
-    artist: "Levon Tutundzhian",
-    isExplicit: true,
-    coverUrl: "/album-world-of-flowers.png",
-    duration: 241,
+    coverUrl: "/album-oh-yeah-steve-lacy.jpg",
+    duration: 171,
+    audioSrc: "/oh-yeah-steve-lacy.m4a",
   },
 ];
 
@@ -54,111 +47,105 @@ export function GlassMusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLooping, setIsLooping] = useState(true); // Loop active by default
   const [isMuted, setIsMuted] = useState(false);
-  const [currentTime, setCurrentTime] = useState(42); // start with nice aesthetic offset
+  const [currentTime, setCurrentTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(PLAYLIST[0].duration);
   const [airplayActive, setAirplayActive] = useState(false);
   const [airplayMessage, setAirplayMessage] = useState(false);
   const [loopNotification, setLoopNotification] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const synthNodesRef = useRef<{ gainNode: GainNode } | null>(null);
 
   const track = PLAYLIST[currentTrackIndex];
-  const duration = track.duration;
+  const duration = audioDuration || track.duration;
 
-  // Real-time playback timer with seamless looping
+  // Real-time track change synchronization
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.src = track.audioSrc;
+    audio.load();
+    setCurrentTime(0);
+    setAudioDuration(track.duration);
     if (isPlaying) {
-      interval = setInterval(() => {
-        setCurrentTime((prev) => {
-          if (prev >= duration) {
-            if (isLooping) {
-              // Loop back to start seamlessly
-              return 0;
-            } else {
-              setIsPlaying(false);
-              return duration;
-            }
-          }
-          return prev + 1;
-        });
-      }, 1000);
+      audio.play().catch(() => {});
     }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isPlaying, duration, isLooping]);
+  }, [currentTrackIndex]);
 
-  // Web Audio ambient lo-fi synthesizer loop fallback when audio file isn't present
-  const startSynth = () => {
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new AudioCtx();
-      }
-      const ctx = audioCtxRef.current;
-      if (ctx.state === "suspended") {
-        ctx.resume();
-      }
+  // Attempt audible auto-start on mount, fallback to first user gesture if blocked by browser policy
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-      if (!synthNodesRef.current) {
-        const masterGain = ctx.createGain();
-        masterGain.gain.setValueAtTime(isMuted ? 0 : 0.08, ctx.currentTime);
-        masterGain.connect(ctx.destination);
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(() => {
+          // Autoplay was blocked without user gesture.
+          // Start playing on the visitor's very first click or keypress anywhere on the page.
+          const handleFirstGesture = () => {
+            if (audioRef.current) {
+              audioRef.current
+                .play()
+                .then(() => {
+                  setIsPlaying(true);
+                })
+                .catch(() => {});
+            }
+            window.removeEventListener("pointerdown", handleFirstGesture);
+            window.removeEventListener("keydown", handleFirstGesture);
+          };
 
-        // Warm chord notes (D minor: D3, F3, A3, C4)
-        const freqs = [146.83, 174.61, 220.0, 261.63];
-        freqs.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const filter = ctx.createBiquadFilter();
-          const noteGain = ctx.createGain();
-
-          osc.type = idx % 2 === 0 ? "triangle" : "sine";
-          osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
-          filter.type = "lowpass";
-          filter.frequency.setValueAtTime(480 + idx * 60, ctx.currentTime);
-
-          noteGain.gain.setValueAtTime(0.04 / freqs.length, ctx.currentTime);
-
-          osc.connect(filter);
-          filter.connect(noteGain);
-          noteGain.connect(masterGain);
-          osc.start();
+          window.addEventListener("pointerdown", handleFirstGesture, { once: true });
+          window.addEventListener("keydown", handleFirstGesture, { once: true });
         });
+    }
+  }, []);
 
-        synthNodesRef.current = { gainNode: masterGain };
-      } else {
-        synthNodesRef.current.gainNode.gain.setTargetAtTime(isMuted ? 0 : 0.08, ctx.currentTime, 0.1);
-      }
-    } catch {
-      // AudioContext unavailable or blocked by browser policy
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
     }
   };
 
-  const stopSynth = () => {
-    if (synthNodesRef.current && audioCtxRef.current) {
-      synthNodesRef.current.gainNode.gain.setTargetAtTime(0, audioCtxRef.current.currentTime, 0.15);
+  const handleLoadedMetadata = () => {
+    if (audioRef.current && Number.isFinite(audioRef.current.duration) && audioRef.current.duration > 0) {
+      setAudioDuration(Math.floor(audioRef.current.duration));
+    }
+  };
+
+  const handleEnded = () => {
+    if (isLooping) {
+      // Loop between the 2 tracks continuously
+      setCurrentTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
+      setIsPlaying(true);
+    } else {
+      if (currentTrackIndex < PLAYLIST.length - 1) {
+        setCurrentTrackIndex((prev) => prev + 1);
+        setIsPlaying(true);
+      } else {
+        setIsPlaying(false);
+        setCurrentTime(0);
+      }
     }
   };
 
   const togglePlay = () => {
-    const nextPlaying = !isPlaying;
-    setIsPlaying(nextPlaying);
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    if (nextPlaying) {
-      startSynth();
-      if (audioRef.current && track.audioSrc) {
-        audioRef.current.play().catch(() => {
-          // Audio file play fallback to synth
-        });
-      }
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
     } else {
-      stopSynth();
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
+      audio
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => {
+          console.error("Playback error:", err);
+        });
     }
   };
 
@@ -174,9 +161,6 @@ export function GlassMusicPlayer() {
   const toggleMute = () => {
     setIsMuted((prev) => {
       const next = !prev;
-      if (synthNodesRef.current && audioCtxRef.current) {
-        synthNodesRef.current.gainNode.gain.setTargetAtTime(next ? 0 : 0.08, audioCtxRef.current.currentTime, 0.05);
-      }
       if (audioRef.current) {
         audioRef.current.muted = next;
       }
@@ -185,22 +169,22 @@ export function GlassMusicPlayer() {
   };
 
   const handlePrev = () => {
+    setIsPlaying(true);
     setCurrentTrackIndex((prev) => (prev === 0 ? PLAYLIST.length - 1 : prev - 1));
-    setCurrentTime(0);
   };
 
   const handleNext = () => {
+    setIsPlaying(true);
     setCurrentTrackIndex((prev) => (prev === PLAYLIST.length - 1 ? 0 : prev + 1));
-    setCurrentTime(0);
   };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const pct = Math.max(0, Math.min(1, clickX / rect.width));
-    const seekTime = Math.floor(pct * duration);
+    const seekTime = pct * duration;
     setCurrentTime(seekTime);
-    if (audioRef.current && isFinite(audioRef.current.duration)) {
+    if (audioRef.current && Number.isFinite(seekTime)) {
       audioRef.current.currentTime = seekTime;
     }
   };
@@ -219,29 +203,22 @@ export function GlassMusicPlayer() {
   };
 
   const remainingTime = Math.max(0, duration - currentTime);
-  const progressPercent = Math.min(100, (currentTime / duration) * 100);
+  const progressPercent = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
 
   return (
     <div className="relative w-full max-w-[285px] select-none">
-      {/* Hidden audio element for MP3 playback */}
-      {track.audioSrc && (
-        <audio
-          ref={audioRef}
-          src={track.audioSrc}
-          loop={isLooping}
-          muted={isMuted}
-          onEnded={() => {
-            if (isLooping) {
-              if (audioRef.current) {
-                audioRef.current.currentTime = 0;
-                audioRef.current.play().catch(() => {});
-              }
-            } else {
-              setIsPlaying(false);
-            }
-          }}
-        />
-      )}
+      {/* Native HTML5 Audio element for local playback */}
+      <audio
+        ref={audioRef}
+        src={track.audioSrc}
+        preload="auto"
+        muted={isMuted}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleEnded}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
 
       {/* AirPlay Feedback Notification Pill */}
       {airplayMessage && (
@@ -253,7 +230,7 @@ export function GlassMusicPlayer() {
       {/* Loop Notification Pill */}
       {loopNotification && (
         <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#E6322A]/90 backdrop-blur-md text-white font-mono-tech text-[9px] font-bold tracking-wider whitespace-nowrap shadow-md z-30 transition-all animate-fade-in">
-          {isLooping ? "🔁 Loop Enabled: Loser on Repeat" : "Loop Disabled"}
+          {isLooping ? "🔁 Loop Enabled: 2 Songs on Repeat" : "Loop Disabled"}
         </div>
       )}
 
@@ -386,7 +363,7 @@ export function GlassMusicPlayer() {
             <button
               onClick={toggleLoop}
               type="button"
-              title={isLooping ? "Repeat One Track (Loop On)" : "Repeat Off"}
+              title={isLooping ? "Loop Active (Playing 2 Songs on Repeat)" : "Loop Disabled"}
               className={`p-0.5 rounded transition-all cursor-pointer relative ${
                 isLooping ? "text-[#E6322A]" : "text-[#8C8476] opacity-60 hover:opacity-100"
               }`}

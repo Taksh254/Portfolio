@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { PROFILE } from "@/data/profile";
+import { PROFILE, CONTACT_EMAIL, gmailComposeUrl } from "@/data/profile";
 import { Copy, Check, Send } from "lucide-react";
 import { TypewriterHeader } from "./TypewriterHeader";
 
@@ -18,7 +18,7 @@ export function ContactSection() {
   const [formData, setFormData] = useState({ callsign: "", message: "" });
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("taksh.sehrawat.dev@gmail.com");
+    navigator.clipboard.writeText(CONTACT_EMAIL);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -56,10 +56,13 @@ export function ContactSection() {
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               <a
-                href="mailto:taksh.sehrawat.dev@gmail.com"
+                href={gmailComposeUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="OPEN GMAIL"
                 className="text-sm font-semibold text-[#111111] border-b border-dashed border-[#8C8476] hover:text-[#E6322A] transition-colors"
               >
-                taksh.sehrawat.dev@gmail.com
+                {CONTACT_EMAIL}
               </a>
               <button
                 onClick={handleCopyEmail}

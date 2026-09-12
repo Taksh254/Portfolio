@@ -1,3 +1,17 @@
+export const CONTACT_EMAIL = "takshsehrwat08@gmail.com";
+
+/**
+ * Builds a Gmail web-compose URL with the recipient prefilled, so the link
+ * opens a real Gmail draft instead of relying on the visitor's local mail
+ * client (which mailto: links depend on and often isn't configured).
+ */
+export function gmailComposeUrl(subject?: string, body?: string): string {
+  const params = new URLSearchParams({ view: "cm", fs: "1", to: CONTACT_EMAIL });
+  if (subject) params.set("su", subject);
+  if (body) params.set("body", body);
+  return `https://mail.google.com/mail/?${params.toString()}`;
+}
+
 export interface ProfileData {
   name: string;
   version: string;
@@ -11,6 +25,7 @@ export interface ProfileData {
     status: string;
   };
   narrative: string[];
+  mantra: string[];
   principles: {
     title: string;
     description: string;
@@ -44,10 +59,11 @@ export const PROFILE: ProfileData = {
     status: "ACTIVE",
   },
   narrative: [
-    "I am a software engineer obsessed with how complex systems behave under the hood. My work spans artificial intelligence, low-latency software architecture, computer vision, and autonomous agent orchestration.",
-    "I treat software development as an empirical engineering science: formulating hypotheses, running reproducible benchmarks, profiling memory allocations, and documenting both breakthroughs and failures in my technical logs.",
-    "Rather than treating machine learning models as black boxes or glueing together fragile prompts, I focus on mechanical sympathy — understanding the memory bandwidth, graph execution, and hardware constraints that make modern systems fast and reliable.",
+    "I'm an AI Engineer & Developer who lives somewhere between curiosity and creation. I like taking an idea apart, understanding what makes it work, and then rebuilding it into something useful.",
+    "My work revolves around artificial intelligence, intelligent agents, automation, and software systems — but the technology is only half the story. The real interest lies in solving problems that don't have obvious answers.",
+    "Most of my learning happens at the workbench: I build, I break, I investigate, and I build again. Every project is an experiment, every failure leaves a note, and every improvement becomes part of the system. The goal isn't simply to write more code, but to understand systems deeply enough to create things that are useful, thoughtful, and a little ahead of what came before.",
   ],
+  mantra: ["Think", "Build", "Break", "Understand", "Repeat"],
   principles: [
     {
       title: "First-Principles Deconstruction",
@@ -127,8 +143,8 @@ export const PROFILE: ProfileData = {
     },
     {
       label: "Email",
-      url: "mailto:taksh.sehrawat.dev@gmail.com",
-      handle: "taksh.sehrawat.dev@gmail.com",
+      url: gmailComposeUrl(),
+      handle: CONTACT_EMAIL,
     },
     {
       label: "X (Twitter)",

@@ -17,6 +17,7 @@ import {
   Send,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/Icons";
+import { CONTACT_EMAIL, gmailComposeUrl } from "@/data/profile";
 import { GitHubInAppBrowser } from "./GitHubInAppBrowser";
 import { LinkedInInAppBrowser } from "./LinkedInInAppBrowser";
 import { XInAppBrowser } from "./XInAppBrowser";
@@ -65,8 +66,8 @@ export function LinkSubWindow({
         };
       case "email":
         return {
-          title: "MAIL CLIENT / TAKSH.SEHRAWAT.DEV@GMAIL.COM",
-          url: "mailto:taksh.sehrawat.dev@gmail.com",
+          title: `GMAIL / ${CONTACT_EMAIL.toUpperCase()}`,
+          url: gmailComposeUrl(),
           icon: Send,
         };
     }
@@ -83,10 +84,7 @@ export function LinkSubWindow({
 
   const handleSendEmail = (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoUrl = `mailto:taksh.sehrawat.dev@gmail.com?subject=${encodeURIComponent(
-      emailSubject
-    )}&body=${encodeURIComponent(emailBody)}`;
-    window.open(mailtoUrl, "_blank");
+    window.open(gmailComposeUrl(emailSubject, emailBody), "_blank", "noopener,noreferrer");
     setEmailSent(true);
   };
 
@@ -244,17 +242,17 @@ export function LinkSubWindow({
                     <div className="flex items-center justify-between border-b border-[#30363d] pb-2 text-xs">
                       <span className="text-[#7d8590]">TO:</span>
                       <span className="text-white font-bold">
-                        taksh.sehrawat.dev@gmail.com
+                        {CONTACT_EMAIL}
                       </span>
                     </div>
 
                     {emailSent ? (
                       <div className="p-6 bg-[#0d1117] border border-[#238636] rounded-md text-center space-y-2">
                         <div className="text-[#3fb950] font-bold">
-                          MAILTO DISPATCHED TO SYSTEM CLIENT ✓
+                          GMAIL DRAFT OPENED IN NEW TAB ✓
                         </div>
                         <p className="text-[#7d8590]">
-                          Your default mail client has been launched.
+                          Recipient is already filled in — just review and hit send.
                         </p>
                         <button
                           onClick={() => setEmailSent(false)}
@@ -308,7 +306,7 @@ export function LinkSubWindow({
                             className="px-4 py-1.5 bg-[#238636] hover:bg-[#2ea043] text-white rounded-md text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
                           >
                             <Send className="w-3.5 h-3.5" />
-                            <span>Launch Mailto →</span>
+                            <span>Open in Gmail →</span>
                           </button>
                         </div>
                       </form>

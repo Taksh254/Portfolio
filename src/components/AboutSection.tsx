@@ -61,6 +61,33 @@ export function AboutSection() {
             <p key={i}>{para}</p>
           ))}
         </div>
+
+        {/* Process Loop — the mantra rendered as a running state machine */}
+        <div className="pt-4 border-t border-black/[0.08] space-y-2.5">
+          <div className="text-[9px] text-[#7A7770] uppercase tracking-widest">
+            // PROCESS: INFINITE LOOP
+          </div>
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-2">
+            {PROFILE.mantra.map((step, i) => (
+              <React.Fragment key={step}>
+                <span className="px-2.5 py-1 rounded-md bg-black/[0.03] border border-black/[0.07] text-[10px] sm:text-[11px] font-mono-tech font-bold tracking-[0.12em] uppercase text-[#111111]">
+                  {step}
+                </span>
+                {i < PROFILE.mantra.length - 1 && (
+                  <span className="text-[#E6322A] text-xs font-mono-tech" aria-hidden="true">
+                    &rarr;
+                  </span>
+                )}
+              </React.Fragment>
+            ))}
+            <span className="text-[#E6322A] text-sm font-mono-tech ml-0.5" aria-hidden="true">
+              &#8635;
+            </span>
+            <span className="text-[9px] text-[#7A7770] font-mono-tech uppercase tracking-widest ml-1">
+              loops to Think
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

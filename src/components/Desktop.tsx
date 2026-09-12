@@ -11,7 +11,7 @@ import { WindowId } from "@/types/os";
 import { PROJECTS } from "@/data/projects";
 import { EXPERIMENTS } from "@/data/experiments";
 import { NOTES } from "@/data/notes";
-import { PROFILE } from "@/data/profile";
+import { PROFILE, CONTACT_EMAIL, gmailComposeUrl } from "@/data/profile";
 import { OSWindow } from "./OSWindow";
 import { WorkWindow } from "./windows/WorkWindow";
 import { LabWindow } from "./windows/LabWindow";
@@ -912,7 +912,15 @@ export function Desktop({
                   </div>
                   <textarea rows={3} required placeholder="Project details, engineering query, or collaboration idea…" value={msg} onChange={(e) => setMsg(e.target.value)} style={{ padding: "9px", background: "#07090C", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "8px", color: "#E2DDD6", fontSize: "11px", fontFamily: "var(--font-geist-mono), monospace", outline: "none", resize: "none" }} />
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className="font-mono-tech" style={{ fontSize: "9px", color: "#3A4050" }}>taksh.sehrawat.dev@gmail.com</span>
+                    <a
+                      href={gmailComposeUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono-tech"
+                      style={{ fontSize: "9px", color: "#3A4050" }}
+                    >
+                      {CONTACT_EMAIL}
+                    </a>
                     <button type="submit" disabled={sending} style={{ padding: "8px 16px", background: "#C42020", color: "#FFFFFF", border: "none", borderRadius: "8px", fontSize: "10px", fontFamily: "var(--font-geist-mono), monospace", fontWeight: "700", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px", opacity: sending ? 0.6 : 1 }}>
                       <Send style={{ width: "12px", height: "12px" }} /> {sending ? "TRANSMITTING…" : "SEND PACKET →"}
                     </button>

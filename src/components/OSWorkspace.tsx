@@ -26,7 +26,6 @@ const SECTIONS = ["home", "projects", "lab", "notes", "about", "contact"];
 export function OSWorkspace() {
   const [activeSection, setActiveSection] = useState("home");
   const [isCommandOpen, setIsCommandOpen] = useState(false);
-  const [activeTheme, setActiveTheme] = useState<"paper" | "dark">("paper");
 
   // Interactive Modal Window states
   const [activeWindow, setActiveWindow] = useState<WindowId | null>(null);
@@ -88,25 +87,13 @@ export function OSWorkspace() {
     }
   };
 
-  const handleToggleTheme = () => {
-    setActiveTheme((prev) => (prev === "paper" ? "dark" : "paper"));
-  };
-
   return (
     <div
-      className={`min-h-screen paper-grid text-[#111111] flex flex-col relative font-sans select-text pb-20 ${
-        activeTheme === "paper" ? "bg-[#F5F2E9]" : "bg-[#0D1017] text-[#EDEDED]"
-      }`}
-      style={{
-        backgroundColor: activeTheme === "paper" ? "var(--bg-primary, #F5F2E9)" : "#0D1017",
-      }}
+      className="min-h-screen paper-grid text-[#111111] flex flex-col relative font-sans select-text pb-20 bg-[#F5F2E9]"
+      style={{ backgroundColor: "var(--bg-primary, #F5F2E9)" }}
     >
       {/* ── 1. Top System Bar (Pinned) ── */}
-      <OSTopBar
-        onCommandOpen={() => setIsCommandOpen(true)}
-        activeTheme={activeTheme}
-        onToggleTheme={handleToggleTheme}
-      />
+      <OSTopBar />
 
       {/* ── Atmospheric 4K Oak Tree Artwork Layer (Fixed Left Flank) ── */}
       <div className="hidden lg:block fixed -left-8 -top-3 h-[105vh] w-auto pointer-events-none select-none z-0 overflow-visible">

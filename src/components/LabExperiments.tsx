@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { CheckCircle2, Clock, AlertCircle } from "lucide-react";
+import { EXPERIMENTS, Experiment } from "@/data/experiments";
 import { TypewriterHeader } from "./TypewriterHeader";
 
 const LAB_PHRASES = [
@@ -9,6 +11,15 @@ const LAB_PHRASES = [
   "// AUTONOMOUS RESEARCH PIPELINES",
   "// BENCHMARKING: ACTIVE",
 ];
+
+const STATUS_META: Record<
+  Experiment["status"],
+  { label: string; color: string; Icon: typeof Clock }
+> = {
+  in_progress: { label: "IN PROGRESS", color: "#B8860B", Icon: Clock },
+  completed: { label: "COMPLETED", color: "#315B50", Icon: CheckCircle2 },
+  failed: { label: "FAILED (LEARNED)", color: "#E6322A", Icon: AlertCircle },
+};
 
 interface LabExperimentsProps {
   onSelectExperiment?: (id: string) => void;
@@ -19,40 +30,7 @@ export function LabExperiments({
   onSelectExperiment,
   onViewAll,
 }: LabExperimentsProps) {
-  const EXPERIMENTS = [
-    {
-      id: "exp-021",
-      number: "#021",
-      name: "Autonomous Research Agent",
-      status: "IN PROGRESS",
-      statusColor: "#E6322A",
-      pct: 73,
-    },
-    {
-      id: "exp-020",
-      number: "#020",
-      name: "Multi-Agent Systems",
-      status: "EXPERIMENTING",
-      statusColor: "#B8860B",
-      pct: 48,
-    },
-    {
-      id: "exp-019",
-      number: "#019",
-      name: "Generative UI",
-      status: "RESEARCH",
-      statusColor: "#7A7770",
-      pct: 12,
-    },
-    {
-      id: "exp-018",
-      number: "#018",
-      name: "ROS Navigation",
-      status: "BENCHMARKING",
-      statusColor: "#315B50",
-      pct: 34,
-    },
-  ];
+  const preview = EXPERIMENTS.slice(0, 4);
 
   return (
     <div className="w-full">
@@ -69,52 +47,55 @@ export function LabExperiments({
         </button>
       </div>
 
-      {/* Experiment Rows */}
+      {/* Experiment Rows — sourced from the same log EngineeringNotebook/LabWindow use */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono-tech">
-        {EXPERIMENTS.map((exp) => (
-          <div
-            key={exp.id}
-            onClick={() => onSelectExperiment?.(exp.id)}
-            className="p-4 rounded-xl apple-glass-card cursor-pointer flex flex-col justify-between space-y-3.5"
-          >
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="text-[10.5px] text-[#7A7770]">{exp.number}</span>
-                <span
-                  style={{ color: exp.statusColor }}
-                  className="text-[9.5px] font-bold tracking-wider"
-                >
-                  {exp.status}
-                </span>
+        {preview.map((exp) => {
+          const meta = STATUS_META[exp.status];
+          const Icon = meta.Icon;
+          return (
+            <div
+              key={exp.id}
+              onClick={() => onSelectExperiment?.(exp.id)}
+              data-cursor="INSPECT EXPERIMENT"
+              className="group p-4 rounded-xl apple-glass-card cursor-pointer flex flex-col justify-between gap-3"
+            >
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10.5px] text-[#7A7770] shrink-0">{exp.number}</span>
+                  <span
+                    style={{ color: meta.color }}
+                    className="flex items-center gap-1 text-[9px] font-bold tracking-wider text-right"
+                  >
+                    <Icon style={{ width: 10, height: 10 }} className="shrink-0" />
+                    {meta.label}
+                  </span>
+                </div>
+                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#111111] line-clamp-2 min-h-[2.4em]">
+                  {exp.title}
+                </h4>
+                <div className="text-[9px] text-[#A39D8E] uppercase tracking-widest">
+                  {exp.domain}
+                </div>
               </div>
-              <h4 className="font-sans font-semibold text-[13px] text-[#111111]">
-                {exp.name}
-              </h4>
-            </div>
 
-            {/* Progress track */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-[9px] text-[#7A7770]">
-                <span>TELEMETRY</span>
-                <span className="font-bold">{exp.pct}%</span>
-              </div>
-              <div className="w-full h-1.5 bg-black/[0.06] rounded-full overflow-hidden">
-                <div
-                  style={{
-                    width: `${exp.pct}%`,
-                    backgroundColor:
-                      exp.pct > 50
-                        ? "#E6322A"
-                        : exp.pct > 25
-                        ? "#B8860B"
-                        : "#315B50",
-                  }}
-                  className="h-full rounded-full transition-all duration-700"
-                />
+              {/* Hypothesis snippet — real content instead of a fabricated progress metric */}
+              <div className="space-y-1.5 pt-2.5 border-t border-black/[0.07]">
+                <p className="font-sans normal-case text-[10.5px] text-[#66635D] leading-relaxed line-clamp-2 min-h-[2.6em]">
+                  <span className="text-[#A39D8E] font-mono-tech uppercase tracking-wide text-[8.5px]">
+                    HYPOTHESIS —{" "}
+                  </span>
+                  {exp.hypothesis}
+                </p>
+                <div className="flex items-center justify-between text-[9px]">
+                  <span className="text-[#A39D8E]">{exp.date}</span>
+                  <span className="text-[#33312E] group-hover:text-[#E6322A] transition-colors flex items-center gap-0.5">
+                    View log <span className="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
