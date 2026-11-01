@@ -11,21 +11,69 @@ interface GitContributorProps {
   onOpenGitHub?: () => void;
 }
 
-const TYPEWRITER_PHRASES = [
-  "// 07  GITHUB // CONTRIBUTIONS",
-  "// CONTRIBUTIONS // 2025 - 2026",
-  "// 126 COMMITS SYNCED",
-  "// CADENCE: ACTIVE",
-];
+type Day = { date: string; level: number; tooltip: string };
+type ContributionData = { totalContributions: number; days: Day[]; fetchedAt?: string };
+
+const REFRESH_MS = 5 * 60 * 1000;
+const MAX_WEEKS = 53;
+
+function syncedLabel(fetchedAt: string | undefined, now: number) {
+  if (!fetchedAt) return "snapshot";
+  const mins = Math.max(0, Math.round((now - new Date(fetchedAt).getTime()) / 60000));
+  return mins < 1 ? "synced just now" : mins < 60 ? `synced ${mins}m ago` : `synced ${Math.round(mins / 60)}h ago`;
+}
 
 export function GitContributor({ onOpenGitHub }: GitContributorProps) {
+  // Start from the bundled snapshot so the grid renders instantly, then swap in
+  // live data from /api/contributions and keep it fresh while the page is open.
+  const [data, setData] = useState<ContributionData>(contributionsData);
+  const [isLive, setIsLive] = useState(false);
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch("/api/contributions");
+        if (!res.ok) return;
+        const json: ContributionData = await res.json();
+        if (!cancelled && Array.isArray(json.days) && json.days.length > 0) {
+          setData(json);
+          setIsLive(true);
+        }
+      } catch {
+        // Keep showing whatever we have.
+      }
+      if (!cancelled) setNow(Date.now());
+    };
+    load();
+    const id = setInterval(() => {
+      if (document.visibilityState === "visible") load();
+    }, REFRESH_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+
+  const typewriterPhrases = useMemo(() => {
+    const first = data.days[0]?.date.slice(0, 4) ?? "";
+    const last = data.days[data.days.length - 1]?.date.slice(0, 4) ?? "";
+    return [
+      "// 07  GITHUB // CONTRIBUTIONS",
+      `// CONTRIBUTIONS // ${first}${last && last !== first ? ` - ${last}` : ""}`,
+      `// ${data.totalContributions} CONTRIBUTIONS ${isLive ? "LIVE" : "SYNCED"}`,
+      "// CADENCE: ACTIVE",
+    ];
+  }, [data, isLive]);
+
   const [hoveredDay, setHoveredDay] = useState<{
     date: string;
     level: number;
     tooltip: string;
   } | null>(null);
 
-  // Filter contributions to start from November (2025-11-02, first Sunday of November)
+  // Last year of contributions, grouped into Sunday-first weeks like GitHub's graph.
   const { weeks, monthMap } = useMemo(() => {
     const MONTH_NAMES = [
       "Jan",
@@ -42,11 +90,13 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
       "Dec",
     ];
 
-    // Filter starting from November 2025 (aligned to Sunday Nov 2nd)
-    const filteredDays = contributionsData.days.filter((d) => d.date >= "2025-11-02");
+    // Start on a Sunday so each column is one week, and cap at MAX_WEEKS columns.
+    const firstSunday = data.days.findIndex((d) => new Date(`${d.date}T00:00:00Z`).getUTCDay() === 0);
+    const aligned = firstSunday > 0 ? data.days.slice(firstSunday) : data.days;
+    const filteredDays = aligned.slice(Math.max(0, aligned.length - MAX_WEEKS * 7 + ((7 - (aligned.length % 7)) % 7)));
 
-    const weeksResult: Array<Array<{ date: string; level: number; tooltip: string }>> = [];
-    let currentWeek: Array<{ date: string; level: number; tooltip: string }> = [];
+    const weeksResult: Day[][] = [];
+    let currentWeek: Day[] = [];
 
     filteredDays.forEach((day, index) => {
       currentWeek.push(day);
@@ -71,7 +121,7 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
     });
 
     return { weeks: weeksResult, monthMap: monthLabels };
-  }, []);
+  }, [data]);
 
   // Theme-matched palette: Warm terracotta / signature red gradient matching TAKSH.OS
   const getCellColor = (level: number) => {
@@ -93,7 +143,7 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
     <div className="w-full h-full flex flex-col justify-between select-none">
       {/* ── Top Bar: Animated Typing on Left & Taksh254 on Right ── */}
       <div className="flex items-center justify-between w-full pb-2.5 border-b border-[#D8D3C8]/70">
-        <TypewriterHeader phrases={TYPEWRITER_PHRASES} />
+        <TypewriterHeader phrases={typewriterPhrases} />
 
         <a
           href="https://github.com/Taksh254"
@@ -176,7 +226,13 @@ export function GitContributor({ onOpenGitHub }: GitContributorProps) {
               {hoveredDay.tooltip || `${hoveredDay.date}`}
             </span>
           ) : (
-            <span className="text-[#8A867E]">Hover over cells to inspect commits</span>
+            <span className="text-[#8A867E]">
+              {data.totalContributions} contributions in the last year
+              <span className={isLive ? "text-[#315B50]" : ""}>
+                {" · "}
+                {isLive ? `● live, ${syncedLabel(data.fetchedAt, now)}` : "hover a day for details"}
+              </span>
+            </span>
           )}
         </div>
 
