@@ -50,14 +50,22 @@ const STATUS_BADGE: Record<string, { label: string; style: string }> = {
 };
 
 const FAN_LAYOUT = [
-  { rotation: -8, offsetY: 4 },
-  { rotation: -4, offsetY: 1 },
-  { rotation: 0, offsetY: 0 },
-  { rotation: 4, offsetY: 1 },
-  { rotation: 8, offsetY: 4 },
+  { rotation: -9, offsetY: 5 },
+  { rotation: -5, offsetY: 2 },
+  { rotation: -1.5, offsetY: 0 },
+  { rotation: 1.5, offsetY: 0 },
+  { rotation: 5, offsetY: 2 },
+  { rotation: 9, offsetY: 5 },
 ];
 
+// The fan fits six polaroids; everything else lives in the "View all" Work window.
+const FEATURED_COUNT = 6;
+
 const SHORT_TITLES: Record<string, string> = {
+  "bloomdesk": "BloomDesk",
+  "grownova-os": "GrowNova OS",
+  "viral-shorts-clipper": "Clipper",
+  "study-buddy": "Study Buddy",
   "finova": "Finova",
   "oryn": "Oryn",
   "tiny-mind-play-school": "Tiny Mind",
@@ -65,7 +73,7 @@ const SHORT_TITLES: Record<string, string> = {
   "beejmantra": "BeejMantra",
 };
 
-const FEATURED_PROJECTS: FeaturedProjectBuild[] = PROJECTS.map((project, idx) => {
+const FEATURED_PROJECTS: FeaturedProjectBuild[] = PROJECTS.slice(0, FEATURED_COUNT).map((project, idx) => {
   const badge = STATUS_BADGE[project.status] ?? STATUS_BADGE.building;
   const layout = FAN_LAYOUT[idx % FAN_LAYOUT.length];
   return {

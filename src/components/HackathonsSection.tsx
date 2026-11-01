@@ -22,13 +22,13 @@ export function HackathonsSection() {
           <div className="flex items-center gap-2 shrink-0">
             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#E6322A]/8 border border-[#E6322A]/25 text-[#E6322A] text-[9px] font-bold tracking-wider shrink-0 whitespace-nowrap">
               <Trophy className="w-3 h-3 text-[#E6322A] shrink-0" />
-              <span>{HACKATHONS.length} SPRINT BUILDS</span>
+              <span>{HACKATHONS.length} SPRINT BUILD{HACKATHONS.length === 1 ? "" : "S"}</span>
             </div>
           </div>
         </div>
 
-        {/* 2x2 Card Grid */}
-        <div className="grid grid-cols-2 gap-2.5">
+        {/* Card grid: one wide card until there are more builds to pair up */}
+        <div className={`grid gap-2.5 ${HACKATHONS.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
           {HACKATHONS.map((h) => (
             <a
               key={h.id}

@@ -38,7 +38,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Taksh Sehrawat — AI Engineer & Developer | TAKSH.OS",
   description:
-    "Personal engineering workspace of Taksh Sehrawat. AI Systems, Autonomous Agents, Automation & Experimental Engineering. TAKSH.OS v2.1.0",
+    "Portfolio of Taksh Sehrawat, B.Tech CSE (AI/ML) student and backend intern at GrowNova. BloomDesk, GrowNova OS, local-AI tools and more.",
   keywords: [
     "Taksh Sehrawat",
     "AI Engineer",

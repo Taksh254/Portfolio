@@ -8,7 +8,7 @@ const ABOUT_PHRASES = [
   "// 08  ABOUT // PROFILE SPECIFICATION",
   "// SYSTEM SPEC: TAKSH SEHRAWAT",
   "// CORE: AI SYSTEMS & ARCHITECTURE",
-  "// AVAILABLE FOR RESEARCH & BUILDS",
+  "// OPEN TO REMOTE INTERNSHIPS",
 ];
 
 export function AboutSection() {
@@ -27,7 +27,7 @@ export function AboutSection() {
           </div>
           <div>
             <div className="text-[9px] text-[#7A7770] uppercase tracking-widest">ROLE</div>
-            <div className="text-[13px] font-semibold text-[#33312E]">AI Engineer &amp; Developer</div>
+            <div className="text-[13px] font-semibold text-[#33312E]">B.Tech CSE (AI/ML) · Backend Intern @ GrowNova</div>
           </div>
           <div>
             <div className="text-[9px] text-[#7A7770] uppercase tracking-widest">LOCATION</div>
@@ -35,7 +35,7 @@ export function AboutSection() {
           </div>
           <div>
             <div className="text-[9px] text-[#7A7770] uppercase tracking-widest">AVAILABILITY</div>
-            <div className="text-[12px] font-bold text-[#315B50]">● AVAILABLE FOR RESEARCH &amp; BUILDS</div>
+            <div className="text-[12px] font-bold text-[#315B50]">● OPEN TO REMOTE INTERNSHIPS</div>
           </div>
         </div>
 
@@ -43,7 +43,7 @@ export function AboutSection() {
         <div className="space-y-2">
           <div className="text-[9px] text-[#7A7770] uppercase tracking-widest">CORE FOCUS</div>
           <div className="flex flex-wrap gap-2">
-            {["AI Systems", "Automation", "Software Architecture", "Research", "Robotics"].map((f) => (
+            {["AI Systems", "Backend Architecture", "Automation", "Offline-First Apps", "Local LLMs"].map((f) => (
               <span
                 key={f}
                 className="px-3 py-1 rounded-full bg-black/[0.04] border border-black/[0.06] text-[#2C261E] text-xs font-medium"
@@ -60,6 +60,28 @@ export function AboutSection() {
           {PROFILE.narrative.map((para, i) => (
             <p key={i}>{para}</p>
           ))}
+        </div>
+
+        {/* Experience & Education Log */}
+        <div className="pt-4 border-t border-black/[0.08] space-y-3">
+          <div className="text-[9px] text-[#7A7770] uppercase tracking-widest">
+            {"// EXPERIENCE & EDUCATION LOG"}
+          </div>
+          <ol className="relative border-l border-black/[0.1] ml-1.5 space-y-4">
+            {PROFILE.timeline.map((entry) => (
+              <li key={entry.title} className="pl-4 relative">
+                <span
+                  className="absolute -left-[4.5px] top-1.5 w-2 h-2 rounded-full bg-[#E6322A]"
+                  aria-hidden="true"
+                />
+                <div className="flex flex-wrap items-baseline gap-x-2">
+                  <span className="text-[10px] font-bold text-[#7A7770] tracking-widest">{entry.year}</span>
+                  <span className="text-[12.5px] font-bold text-[#111111]">{entry.title}</span>
+                </div>
+                <p className="font-sans text-xs text-[#555047] leading-relaxed mt-0.5">{entry.description}</p>
+              </li>
+            ))}
+          </ol>
         </div>
 
         {/* Process Loop — the mantra rendered as a running state machine */}
