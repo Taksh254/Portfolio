@@ -18,7 +18,7 @@ import {
   Search,
 } from "lucide-react";
 import { LinkedinIcon } from "@/components/Icons";
-import { gmailComposeUrl } from "@/data/profile";
+import { gmailComposeUrl, PROFILE } from "@/data/profile";
 import { PROJECTS } from "@/data/projects";
 
 export function LinkedInInAppBrowser() {
@@ -132,20 +132,16 @@ export function LinkedInInAppBrowser() {
                 <h1 className="text-xl sm:text-2xl font-bold text-[#191919] flex items-center gap-2">
                   Taksh Sehrawat
                   <span className="text-[11px] font-normal text-[#057642] bg-[#E8F5E9] border border-[#C8E6C9] px-2 py-0.5 rounded-full font-sans">
-                    ● Available for High-Impact Roles
+                    ● Open to Remote Internships
                   </span>
                 </h1>
                 <p className="text-xs sm:text-sm text-[#474747] font-medium leading-snug">
-                  Software &amp; AI Systems Engineer • Autonomous Multi-Agent DAGs • Low-Latency Neural Runtimes &amp; Edge CV
+                  B.Tech CSE (AI/ML) @ IILM University • Backend Intern @ GrowNova • NestJS, PostgreSQL &amp; Local LLMs
                 </p>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-[#717171] pt-1">
                   <span className="flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5 text-[#717171]" />
-                    India
-                  </span>
-                  <span>•</span>
-                  <span className="text-[#0a66c2] font-semibold hover:underline cursor-pointer">
-                    500+ connections
+                    Delhi, India
                   </span>
                 </div>
               </div>
@@ -182,83 +178,41 @@ export function LinkedInInAppBrowser() {
                 About
               </h2>
               <p className="text-xs sm:text-sm text-[#474747] leading-relaxed">
-                I am a software engineer focused on building intelligent, robust systems from first principles. My work spans artificial intelligence, low-latency software architecture, computer vision, and autonomous agent orchestration.
+                {PROFILE.narrative[0]}
               </p>
               <p className="text-xs sm:text-sm text-[#474747] leading-relaxed">
-                I focus on mechanical sympathy — understanding memory hierarchies, SIMD tensor parallelism, and graph execution constraints that make modern AI systems blisteringly fast and predictable in production.
+                {PROFILE.narrative[1]}
               </p>
             </div>
           )}
 
-          {/* Experience Section */}
+          {/* Experience & Education (driven by PROFILE.timeline) */}
           {(activeTab === "experience" || activeTab === "about") && (
             <div className="bg-[#FFFFFF] border border-[#E0DFDC] rounded-lg p-5 sm:p-6 space-y-5 shadow-xs">
               <h2 className="text-base font-bold text-[#191919] flex items-center gap-2">
                 <Briefcase className="w-4 h-4 text-[#0a66c2]" />
-                Engineering Experience
+                Experience &amp; Education
               </h2>
 
               <div className="space-y-4">
-                <div className="flex items-start gap-3 pb-4 border-b border-[#E8E8E8]">
-                  <div className="w-10 h-10 rounded bg-[#EBF4FD] text-[#0a66c2] flex items-center justify-center shrink-0 font-bold font-mono">
-                    AI
-                  </div>
-                  <div className="space-y-1 flex-1">
-                    <h3 className="font-bold text-sm text-[#191919]">
-                      AI Systems &amp; Autonomous Agent Architect
-                    </h3>
-                    <div className="text-xs text-[#717171] flex items-center gap-2">
-                      <span>Self-Directed &amp; Open Source</span>
-                      <span>•</span>
-                      <span>2025 – Present</span>
+                {PROFILE.timeline.map((entry, i) => (
+                  <div
+                    key={entry.title}
+                    className={`flex items-start gap-3 ${i < PROFILE.timeline.length - 1 ? "pb-4 border-b border-[#E8E8E8]" : ""}`}
+                  >
+                    <div className="w-10 h-10 rounded bg-[#EBF4FD] text-[#0a66c2] flex items-center justify-center shrink-0 font-bold font-mono text-[11px]">
+                      {entry.year.slice(2)}
                     </div>
-                    <p className="text-xs text-[#474747] leading-relaxed pt-1">
-                      Designed hierarchical multi-agent DAG execution scheduler achieving 3.03x speedup on complex research synthesis. Deployed hybrid lexical-semantic vector index in pgvector with sub-180ms TTFT.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 pb-4 border-b border-[#E8E8E8]">
-                  <div className="w-10 h-10 rounded bg-[#F3E5F5] text-[#7B1FA2] flex items-center justify-center shrink-0 font-bold font-mono">
-                    CV
-                  </div>
-                  <div className="space-y-1 flex-1">
-                    <h3 className="font-bold text-sm text-[#191919]">
-                      Edge Vision &amp; Robotics Engineer
-                    </h3>
-                    <div className="text-xs text-[#717171] flex items-center gap-2">
-                      <span>Research &amp; Embedded Systems</span>
-                      <span>•</span>
-                      <span>2024 – 2025</span>
+                    <div className="space-y-1 flex-1">
+                      <h3 className="font-bold text-sm text-[#191919]">{entry.title}</h3>
+                      <div className="text-xs text-[#717171]">{entry.year}</div>
+                      <p className="text-xs text-[#474747] leading-relaxed pt-1">{entry.description}</p>
                     </div>
-                    <p className="text-xs text-[#474747] leading-relaxed pt-1">
-                      Architected anti-spoofing facial recognition attendance pipeline running on 7.5W edge SBCs. Integrated 2D LiDAR SLAM with Extended Kalman Filter odometry fusion in ROS2.
-                    </p>
                   </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded bg-[#E8F5E9] text-[#2E7D32] flex items-center justify-center shrink-0 font-bold font-mono">
-                    DS
-                  </div>
-                  <div className="space-y-1 flex-1">
-                    <h3 className="font-bold text-sm text-[#191919]">
-                      Distributed Systems &amp; Low-Level Runtime Engineer
-                    </h3>
-                    <div className="text-xs text-[#717171] flex items-center gap-2">
-                      <span>Infrastructure Projects</span>
-                      <span>•</span>
-                      <span>2023 – 2024</span>
-                    </div>
-                    <p className="text-xs text-[#474747] leading-relaxed pt-1">
-                      Engineered fault-tolerant distributed web crawler cluster in Go with consistent hashing domain partitioning and SIMD bit-level approximate vector search kernels.
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           )}
-
           {/* Featured Projects */}
           {(activeTab === "projects" || activeTab === "about") && (
             <div className="bg-[#FFFFFF] border border-[#E0DFDC] rounded-lg p-5 sm:p-6 space-y-4 shadow-xs">
@@ -302,20 +256,10 @@ export function LinkedInInAppBrowser() {
             <div className="bg-[#FFFFFF] border border-[#E0DFDC] rounded-lg p-5 sm:p-6 space-y-3 shadow-xs">
               <h2 className="text-base font-bold text-[#191919]">Skills &amp; Technologies</h2>
               <div className="flex flex-wrap gap-2">
-                {[
-                  "PyTorch",
-                  "LangGraph",
-                  "Python 3.12",
-                  "TypeScript",
-                  "Next.js App Router",
-                  "C++20 & SIMD",
-                  "pgvector & Embeddings",
-                  "Computer Vision (OpenCV)",
-                  "Docker & Linux",
-                  "ROS2 & Robotics",
-                  "Go (Golang)",
-                  "FastAPI",
-                ].map((skill) => (
+                {PROFILE.toolchain
+                  .flatMap((c) => c.items)
+                  .slice(0, 16)
+                  .map((skill) => (
                   <span
                     key={skill}
                     className="px-3 py-1 bg-[#EDF3F8] text-[#0a66c2] rounded-full text-xs font-semibold border border-[#D0E2EC]"

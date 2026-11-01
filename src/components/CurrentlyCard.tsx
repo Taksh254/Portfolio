@@ -1,37 +1,37 @@
 "use client";
 
 import React from "react";
-import { Package, BookOpen, Compass, Newspaper } from "lucide-react";
+import { Package, BookOpen, Compass, Briefcase } from "lucide-react";
 import { TypewriterHeader } from "./TypewriterHeader";
 
 const CURRENTLY_PHRASES = [
   "// 02  CURRENTLY",
-  "// ACTIVE RESEARCH",
+  "// NOV 2026",
   "// REAL-TIME FOCUS",
-  "// AUTONOMOUS STACK",
+  "// WHAT I'M ON",
 ];
 
 export function CurrentlyCard() {
   const ITEMS = [
     {
       label: "Building",
-      value: "Research Agent v2",
+      value: "BloomDesk (play school app)",
       icon: Package,
     },
     {
+      label: "Interning",
+      value: "GrowNova OS backend",
+      icon: Briefcase,
+    },
+    {
       label: "Learning",
-      value: "Transformers & Multi-Agents",
+      value: "Applied ML & Networks",
       icon: BookOpen,
     },
     {
       label: "Exploring",
-      value: "Robotics & Automation",
+      value: "Local LLMs with Ollama",
       icon: Compass,
-    },
-    {
-      label: "Reading",
-      value: "The Pragmatic Programmer",
-      icon: Newspaper,
     },
   ];
 

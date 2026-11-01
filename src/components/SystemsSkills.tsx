@@ -27,17 +27,17 @@ export function SystemsSkills() {
   const [activePage, setActivePage] = useState<0 | 1>(0);
 
   const MODULES_PAGE_1 = [
-    { code: "MOD.01", name: "PYTHON", desc: "Core / PyTorch / Async", icon: Code2 },
+    { code: "MOD.01", name: "PYTHON", desc: "Flask / Whisper / OpenCV", icon: Code2 },
     { code: "MOD.02", name: "REACT", desc: "Next.js / TypeScript", icon: Atom },
-    { code: "MOD.03", name: "NODE.JS", desc: "Server / Event Loop", icon: Server },
-    { code: "MOD.04", name: "LLM / AI", desc: "RAG / LangGraph / Quant", icon: Brain },
+    { code: "MOD.03", name: "NESTJS", desc: "Node / BullMQ / Socket.IO", icon: Server },
+    { code: "MOD.04", name: "LLM / AI", desc: "Ollama / RAG / Embeddings", icon: Brain },
   ];
 
   const MODULES_PAGE_2 = [
-    { code: "MOD.05", name: "AUTOMATION", desc: "Statecharts / DAG", icon: Cog },
-    { code: "MOD.06", name: "DATABASES", desc: "PostgreSQL / pgvector", icon: Database },
-    { code: "MOD.07", name: "ROBOTICS", desc: "ROS / Edge Vision", icon: Grid },
-    { code: "MOD.08", name: "GIT / CI", desc: "CI/CD / Orchestration", icon: GitBranch },
+    { code: "MOD.05", name: "AUTOMATION", desc: "Queues / Pipelines / Cron", icon: Cog },
+    { code: "MOD.06", name: "DATABASES", desc: "PostgreSQL / Prisma / Redis", icon: Database },
+    { code: "MOD.07", name: "MOBILE", desc: "Capacitor / Offline Sync", icon: Grid },
+    { code: "MOD.08", name: "GIT / CI", desc: "GitHub Actions / Vercel", icon: GitBranch },
   ];
 
   // Scroll down to scroll right: automatically advances to page 2 as the user scrolls down

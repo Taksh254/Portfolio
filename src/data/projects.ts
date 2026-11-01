@@ -33,8 +33,137 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    id: "finova",
+    id: "bloomdesk",
     number: "01",
+    title: "BloomDesk",
+    category: "SaaS / Offline-First Mobile + Web",
+    year: "2026",
+    status: "live",
+    summary: "Offline-first school app and website for play schools and daycares in India",
+    objective:
+      "Give small play schools, preschools and daycares one simple tool for attendance, children's records, fees and parent updates, built to keep working on a phone with patchy internet and to sync when it's back.",
+    architecture: {
+      overview:
+        "A Capacitor Android staff app stores everything on the phone in IndexedDB and syncs through a hidden API on the Next.js website, which also runs the landing page, sign-up and Neighbours, a community where schools post and message each other.",
+      flow: [
+        "STAFF APP (OFFLINE)",
+        "INDEXEDDB QUEUE",
+        "SYNC API",
+        "POSTGRES + PRISMA",
+        "WEBSITE + NEIGHBOURS",
+      ],
+      steps: [
+        { id: "bd1", label: "STAFF APP", sublabel: "Capacitor 8 + React 19 + Vite", type: "input" },
+        { id: "bd2", label: "LOCAL STORE", sublabel: "IndexedDB, works offline", type: "storage" },
+        { id: "bd3", label: "SYNC SERVER", sublabel: "/api/app login · school · changes · staff", type: "process" },
+        { id: "bd4", label: "POSTGRES + PRISMA 7", sublabel: "Every table scoped by schoolId", type: "storage" },
+        { id: "bd5", label: "WEBSITE", sublabel: "Landing, sign-up, Neighbours community", type: "output" },
+      ],
+    },
+    stack: ["Next.js 16", "React 19", "Capacitor 8", "PostgreSQL", "Prisma 7", "Tailwind CSS v4", "Sentry", "Resend"],
+    metrics: [
+      { label: "Works Offline", value: "Phone-first sync" },
+      { label: "Roles", value: "Owner / Admin / Teacher" },
+      { label: "Backups", value: "Nightly, GPG-encrypted" },
+    ],
+    highlights: [
+      "Offline-first staff app: attendance (P / A / L), children's profiles with Call and WhatsApp, fees with WhatsApp receipts, expenses, classes, homework and staff management, all saved on the phone and synced later.",
+      "Own sign-in (bcrypt + database sessions) and strict school scoping in app code: another school's record always behaves as 'not found'.",
+      "Shipped like a real product: Vercel deploys on every push with migrations on build, Sentry for errors, Resend for email, and a GitHub Actions job that dumps, encrypts and keeps the database for 30 days every night.",
+    ],
+    image: "/projects/bloomdesk.png",
+    demoUrl: "https://bloom-desk-fl6l.vercel.app",
+    terminalCommand: "npm run db:start && npm run dev",
+  },
+  {
+    id: "grownova-os",
+    number: "02",
+    title: "GrowNova OS",
+    category: "Internship / Backend Architecture",
+    year: "2026",
+    status: "building",
+    summary: "Backend for a business operating system for Indian MSMEs (internship)",
+    objective:
+      "As a backend intern at GrowNova, build the API behind GrowNova OS, one system for an Indian small business's sales, CRM, GST invoicing, inventory, POS and accounts, phase by phase from an empty NestJS project.",
+    architecture: {
+      overview:
+        "A NestJS 11 modular monolith on Prisma 7 and PostgreSQL, with Redis for refresh-token sessions and BullMQ jobs, Socket.IO for live events, shared Zod contracts with the React front end, and a tamper-evident audit log.",
+      flow: [
+        "API GATEWAY",
+        "AUTH + RBAC",
+        "DOMAIN MODULES",
+        "POSTGRES + REDIS",
+        "AUDIT CHAIN",
+      ],
+      steps: [
+        { id: "g1", label: "NESTJS 11 API", sublabel: "Zod contracts + ValidationPipe + rate limits", type: "input" },
+        { id: "g2", label: "AUTH + RBAC", sublabel: "JWT, Redis refresh tokens, tenant scoping", type: "process" },
+        { id: "g3", label: "DOMAIN MODULES", sublabel: "CRM · GST invoices · Inventory · POS · Ledger", type: "process" },
+        { id: "g4", label: "POSTGRES + REDIS", sublabel: "Prisma 7 · BullMQ · Socket.IO", type: "storage" },
+        { id: "g5", label: "AUDIT LOG", sublabel: "SHA-256 hash chain, tamper detection", type: "output" },
+      ],
+    },
+    stack: ["NestJS 11", "TypeScript", "Prisma 7", "PostgreSQL", "Redis", "BullMQ", "Socket.IO", "Zod"],
+    metrics: [
+      { label: "Phases Shipped", value: "0 → 12" },
+      { label: "Audit Log", value: "SHA-256 hash chain" },
+      { label: "My Branch", value: "40 commits" },
+    ],
+    highlights: [
+      "Security foundation: JWT auth with Redis-backed refresh tokens and logout/revocation, a RolesGuard with tenant-scoped business APIs, global exception filter and rate limiting.",
+      "Tamper-evident audit log where every entry carries the SHA-256 hash of the one before it, plus legacy data import from Excel and Tally XML for MSMEs moving off spreadsheets.",
+      "Business modules: WhatsApp webhook → CRM leads with rule-based scoring and pipeline rules, per-financial-year GST invoice numbering, inventory with stock ledger, batches and expiry, POS with UPI and offline sync, and double-entry accounts that auto-post from sales.",
+    ],
+    image: "/projects/grownova.png",
+    githubUrl: "https://github.com/kaniskoChakraborty/Grownova-0.1/tree/Taksh",
+    terminalCommand: "docker compose up -d && npm run start:dev",
+  },
+  {
+    id: "viral-shorts-clipper",
+    number: "03",
+    title: "Viral Shorts Clipper",
+    category: "AI Video Pipeline / Local LLM",
+    year: "2026",
+    status: "operational",
+    summary: "One YouTube link in, several captioned 9:16 Shorts out, picked by a local AI",
+    objective:
+      "Turn a long YouTube video into ready-to-post vertical Shorts of its best moments, with animated captions, titles and hashtags, and post or schedule them, all running free on a laptop.",
+    architecture: {
+      overview:
+        "A Python pipeline reads YouTube's timed captions (or transcribes locally with Whisper), asks a local Qwen3 model through Ollama to score self-contained moments, downloads only those seconds, reframes to 9:16 and burns in captions with ffmpeg. A Flask web UI drives it and uploads through the YouTube API.",
+      flow: [
+        "YOUTUBE LINK",
+        "TRANSCRIPT",
+        "LLM MOMENT PICKER",
+        "REFRAME + CAPTIONS",
+        "POST / SCHEDULE",
+      ],
+      steps: [
+        { id: "v1", label: "TRANSCRIPT", sublabel: "YouTube captions or faster-whisper", type: "input" },
+        { id: "v2", label: "MOMENT PICKER", sublabel: "Qwen3 via Ollama, scored 1–10", type: "ai" },
+        { id: "v3", label: "CLIP FETCH", sublabel: "yt-dlp, only the chosen seconds", type: "process" },
+        { id: "v4", label: "RENDER", sublabel: "OpenCV face crop + ffmpeg captions", type: "process" },
+        { id: "v5", label: "PUBLISH", sublabel: "YouTube Data API, multi-channel slots", type: "output" },
+      ],
+    },
+    stack: ["Python", "Ollama (Qwen3)", "faster-whisper", "OpenCV", "ffmpeg", "yt-dlp", "Flask", "YouTube Data API"],
+    metrics: [
+      { label: "Cost to Run", value: "Free, local model" },
+      { label: "Output", value: "Up to 4K, 60fps" },
+      { label: "Clips per Video", value: "3–15, no overlaps" },
+    ],
+    highlights: [
+      "Small local models only looked at the first minute when given a whole transcript, so the video is read in ~2.5-minute parts and the best moment of each is picked, keeping clips spread out and fast on a laptop CPU.",
+      "Cut points snap to word boundaries; the frame follows a visible face or falls back to a blurred-background layout, and captions pop word by word with a 3-second hook banner.",
+      "Web UI with live progress, editable titles and hashtags, several connected YouTube channels and scheduled posting slots. Claude is an optional paid upgrade.",
+    ],
+    image: "/projects/clipper.png",
+    githubUrl: "https://github.com/Taksh254/Clipper-",
+    terminalCommand: "./start.sh  # http://127.0.0.1:8000",
+  },
+  {
+    id: "finova",
+    number: "04",
     title: "Finova",
     category: "FinTech / Reconciliation Engine",
     year: "2026",
@@ -73,11 +202,12 @@ export const PROJECTS: Project[] = [
     ],
     image: "/projects/finova.png",
     githubUrl: "https://github.com/Taksh254/Finova-",
+    demoUrl: "https://finova-vert-alpha.vercel.app",
     terminalCommand: "npm run db:push && npm run dev  # /payout-truth",
   },
   {
     id: "oryn",
-    number: "02",
+    number: "05",
     title: "Oryn",
     category: "3D Data Visualization / Systems Tooling",
     year: "2026",
@@ -121,7 +251,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "tiny-mind-play-school",
-    number: "03",
+    number: "06",
     title: "Tiny Mind Play School",
     category: "Full-Stack Web Platform / EdTech",
     year: "2026",
@@ -164,8 +294,50 @@ export const PROJECTS: Project[] = [
     terminalCommand: "npm run dev  # /dashboard/admin",
   },
   {
+    id: "study-buddy",
+    number: "07",
+    title: "Study Buddy",
+    category: "Local AI Tutor / RAG",
+    year: "2026",
+    status: "operational",
+    summary: "Your study material library with a built-in tutor, offline and free",
+    objective:
+      "Keep all of a semester's PDFs, slides, notebooks and notes in one place, sorted automatically, and learn from them with a tutor that only teaches from your own material and says so when it can't find the answer.",
+    architecture: {
+      overview:
+        "A Flask app stores files on disk and metadata in SQLite. A local Qwen3 model through Ollama sorts and summarizes each file, passages are embedded with nomic-embed-text, and the tutor answers from hybrid (meaning + keyword) search with page-level citations.",
+      flow: [
+        "UPLOAD",
+        "AUTO-SORT + SUMMARY",
+        "EMBEDDINGS",
+        "HYBRID SEARCH",
+        "TUTOR WITH CITATIONS",
+      ],
+      steps: [
+        { id: "s1", label: "UPLOAD", sublabel: "PDF, DOCX, PPTX, notebooks, code", type: "input" },
+        { id: "s2", label: "AUTO-SORT", sublabel: "Subject · type · unit · topics", type: "ai" },
+        { id: "s3", label: "INDEX", sublabel: "nomic-embed-text + SQLite", type: "storage" },
+        { id: "s4", label: "HYBRID SEARCH", sublabel: "Meaning + exact keywords", type: "process" },
+        { id: "s5", label: "TUTOR", sublabel: "Answers cite file + page", type: "output" },
+      ],
+    },
+    stack: ["Python", "Flask", "Ollama (Qwen3)", "nomic-embed-text", "SQLite", "JavaScript"],
+    metrics: [
+      { label: "Runs", value: "Offline, on-device" },
+      { label: "Answers", value: "Cited to page/slide" },
+    ],
+    highlights: [
+      "Every file is split into passages that remember their page or slide, so tutor answers carry [1], [2] citations you can click to read in context.",
+      "If nothing in your material covers the question, the tutor says so first and labels any general explanation as beyond your notes.",
+      "Lesson, quiz, simplify and exam-revision modes per file, per subject or across the whole library, plus a dashboard with study streaks.",
+    ],
+    image: "/projects/study-buddy.png",
+    githubUrl: "https://github.com/Taksh254/Study_Buddy",
+    terminalCommand: "./start.sh  # http://127.0.0.1:8001",
+  },
+  {
     id: "edith-ai",
-    number: "04",
+    number: "08",
     title: "EDITH AI",
     category: "Personal AI Assistant / Desktop Automation",
     year: "2026",
@@ -207,7 +379,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "beejmantra",
-    number: "05",
+    number: "09",
     title: "BeejMantra",
     category: "AgriTech / AI Assistant (Team Fork)",
     year: "2026",
