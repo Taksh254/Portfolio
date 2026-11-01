@@ -1,4 +1,4 @@
-// Refreshes src/data/githubContributions.json from GitHub's contribution calendar.
+// Refreshes the bundled fallback snapshot src/data/githubContributions.json (the site fetches live data from /api/contributions and only uses this if that fails).
 // Runs in GitHub Actions (see .github/workflows/contributions.yml) with GITHUB_TOKEN.
 // Private contributions are included only if "Include private contributions on my
 // profile" is turned on in GitHub settings, same as the public profile graph.
